@@ -1,0 +1,5 @@
+/node_modules
+/src/assets
+.cache
+/dist
+.DS_Store

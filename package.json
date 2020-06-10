@@ -1,0 +1,31 @@
+{
+  "name": "emseCDI",
+  "version": "1.0.0",
+  "description": "emseCDI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cp -R ./src/assets/* ./dist/assets && parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chef-danny-d/emseCDI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chef-danny-d/emseCDI/issues"
+  },
+  "homepage": "https://github.com/chef-danny-d/emseCDI#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "sass": "^1.26.5"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "bulma": "^0.8.2",
+    "jquery": "^3.5.1"
+  }
+}

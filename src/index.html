@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="style.sass" />
+    <title>Content Delivery Interface</title>
+  </head>
+  <body>
+    <nav class="panel">
+      <p class="panel-heading">
+        Modules
+      </p>
+      <div class="panel-block">
+        <p class="control has-icons-left">
+          <input class="input" type="text" placeholder="Search" />
+          <span class="icon is-left">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </span>
+        </p>
+      </div>
+      <p class="panel-tabs">
+        <a class="is-active">All</a>
+        <a>ENMA 600</a>
+        <a>ENMA 601</a>
+        <a>ENMA 605</a>
+        <a>ENMA 715</a>
+      </p>
+      <li class="panel-item dropdown">
+        <a
+          class="panel-block course is-active dropdown-trigger"
+          aria-haspopup="true"
+          aria-controls="dropdown-menu3"
+        >
+          <span class="panel-icon">
+            <i class="fas fa-book" aria-hidden="true"></i>
+          </span>
+          ENMA 600
+        </a>
+        <div class="module dropdown-menu" id="dropdown-menu3" role="menu">
+          <div class="dropdown-content">
+            <a class="module-link dropdown-item">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              01
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              02
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              03
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="panel-item">
+        <a class="panel-block course">
+          <span class="panel-icon">
+            <i class="fas fa-book" aria-hidden="true"></i>
+          </span>
+          ENMA 601
+        </a>
+      </li>
+      <li class="panel-item">
+        <a class="panel-block course">
+          <span class="panel-icon">
+            <i class="fas fa-book" aria-hidden="true"></i>
+          </span>
+          ENMA 605
+        </a>
+      </li>
+      <li class="panel-item dropdown">
+        <a
+          class="panel-block course dropdown-trigger"
+          aria-haspopup="true"
+          aria-controls="dropdown-menu3"
+        >
+          <span class="panel-icon">
+            <i class="fas fa-book" aria-hidden="true"></i>
+          </span>
+          ENMA 715
+        </a>
+        <div class="module dropdown-menu" role="menu">
+          <div class="dropdown-content">
+            <a class="module-link dropdown-item">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              01
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              02
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              03
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              04
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              05
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              06
+            </a>
+            <a class="module-link">
+              <span class="panel-icon">
+                <i class="fas fa-video" aria-hidden="true"></i>
+              </span>
+              07
+            </a>
+          </div>
+        </div>
+      </li>
+    </nav>
+    <div class="container">
+      <h3 class="title is-3 is-center">ENMA Content Delivery Interface</h3>
+      <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul class="breadcrumb-container">
+          <li class="is-active breadcrumb-item">
+            <a id="course-title" aria-current="page"></a>
+          </li>
+          <li class="breadcrumb-item"><a id="module-title"></a></li>
+        </ul>
+      </nav>
+      <iframe class="content"></iframe>
+    </div>
+  </body>
+</html>
