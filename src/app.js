@@ -5,9 +5,13 @@ window.onload = () => {
     let course = imp
     $('.module').click((e) => {
       let moduleNum = e.target.getAttribute('module-number')
+      console.log(moduleNum)
       let pureCourse = course.replace(/\D/g, '')
+      console.log(pureCourse)
       let dirtyPath = pureCourse + ' ' + moduleNum
+      console.log(dirtyPath)
       let clearPath = dirtyPath.replace(/\s+/g, '-')
+      console.log(clearPath)
       console.log(`./assets/${clearPath}/story_html5.html`)
       $('.content').attr('src', `./assets/${clearPath}/story_html5.html`)
     })
