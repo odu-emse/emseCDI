@@ -10,7 +10,7 @@ $(document).ready(() => {
             let path = course + '-' + moduleNum
             $('.content').attr(
                 'src',
-                `http://127.0.0.1:8080/src/assets/${path}/story.html`
+                `http://127.0.0.1:8080/src/assets/modules/${path}/story.html`
             )
         })
     }
@@ -53,8 +53,9 @@ $(document).ready(() => {
         if ($('.breadcrumb-item').hasClass('is-active')) {
             $('#course-title').click(() => {
                 $('#module-title').parent().removeClass('is-active')
-                $('#module-title').remove()
+                $('#module-title').text('')
                 $('#course-title').parent().addClass('is-active')
+                $('.content').attr('src', '')
             })
         }
     }
@@ -99,8 +100,13 @@ $(document).ready(() => {
     //TODO: [CDI-3] implement sorting modules
     const sortModules = () => {}
 
-    //TODO: [CDI-5] reset search/sort
-    const resetFilter = () => {}
+    const resetFilter = () => {
+        $('.reset').css('visibility', 'initial')
+        $('.reset').click(() => {
+            $('#search').val('')
+            $('.dropdown').removeClass('is-active')
+        })
+    }
 
     //removes course and module text from breadcrumb
     const removeBreadcrumb = () => {
@@ -118,16 +124,6 @@ $(document).ready(() => {
         toggleDropdown(event.target)
     })
 
-    //TODO: [AODP-13] show alt text if iframe returns 404
-    const moduleUnavailable = () => {
-        if (!$('.content').attr('src', '')) {
-            console.log('module content not available.')
-        } else {
-            return null
-        }
-    }
-    moduleUnavailable()
-
     const toggleDropdown = (e) => {
         if ($(e).parent().hasClass('is-active')) {
             $(e).parent().removeClass('is-active')
@@ -142,6 +138,7 @@ $(document).ready(() => {
 
     const handleSearch = () => {
         $('#search').on('keyup', function () {
+            resetFilter()
             const value = $(this).val().toLowerCase()
             $('.dropdown').addClass('is-active')
             $('.module-link').filter(function () {
