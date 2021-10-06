@@ -1,5 +1,5 @@
 /node_modules
-/src/assets
+/old/assets
 .cache
 /dist
 .DS_Store
