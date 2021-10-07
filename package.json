@@ -2,30 +2,22 @@
     "name": "emseCDI",
     "version": "0.0.0",
     "description": "Asynchronous Offline Degree Platform",
-    "main": "app/main.js",
-    "build": {
-        "appId": "com.example.electron-boilerplate",
-        "files": [
-            "app/**/*",
-            "node_modules/**/*",
-            "package.json"
-        ],
-        "directories": {
-            "buildResources": "resources"
-        },
-        "publish": null
+    "engines": {
+        "node": ">=v14.16",
+        "npm": ">=7.7"
     },
+    "main": "packages/main/dist/index.cjs",
     "scripts": {
-        "postinstall": "electron-builder install-app-deps",
-        "preunit": "webpack --config=build/webpack.unit.config.js --env=test",
-        "unit": "electron-mocha temp/specs.js --renderer --color --require source-map-support/register",
-        "pree2e": "webpack --config=build/webpack.app.config.js --env=test && webpack --config=build/webpack.e2e.config.js --env=test",
-        "e2e": "mocha temp/e2e.js --require source-map-support/register",
-        "test": "npm run unit && npm run e2e",
-        "start": "node build/start.js",
-        "release": "npm test && webpack --config=build/webpack.app.config.js --env=production && electron-builder",
-        "pack": "electron-builder --dir",
-        "dist": "electron-builder"
+        "build": "node ../scripts/build.js",
+        "precompile": "cross-env MODE=production npm run build",
+        "compile": "electron-builder build --config ../electron-builder.config.js --dir --config.asar=false",
+        "pretest": "npm run build",
+        "test": "node ../tests/app.spec.js",
+        "watch": "node ./scripts/watch.js",
+        "lint": "eslint . --ext js,ts",
+        "typecheck-main": "tsc --noEmit -p ../packages/main/tsconfig.json",
+        "typecheck-preload": "tsc --noEmit -p ../packages/preload/tsconfig.json",
+        "typecheck": "npm run typecheck-main && npm run typecheck-preload && npm run typecheck-renderer"
     },
     "repository": {
         "type": "git",
@@ -35,34 +27,45 @@
     "author": "Dániel B. Papp",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/chef-danny-d/emseCDI/issues"
+        "url": "https://github.com/odu-emse/emseCDI/issues"
     },
-    "homepage": "https://github.com/chef-danny-d/emseCDI#readme",
+    "homepage": "https://github.com/odu-emse/emseCDI#readme",
+    "browserslist": [
+        "Chrome 94"
+    ],
+    "simple-git-hooks": {
+        "pre-commit": "npx lint-staged",
+        "pre-push": "npm run typecheck"
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx}": "eslint --cache --fix"
+    },
     "devDependencies": {
-        "cssnano": "^4.1.10",
-        "sass": "^1.26.11",
-        "prettier": "^2.0.5",
-        "@babel/core": "^7.5.5",
-        "@babel/preset-env": "^7.5.5",
-        "babel-loader": "^8.2.2",
-        "chai": "^4.1.0",
-        "css-loader": "^5.2.0",
-        "electron": "^13.0.1",
-        "electron-builder": "^22.5.1",
-        "electron-mocha": "^10.0.0",
-        "mocha": "^8.3.2",
-        "source-map-support": "^0.5.6",
-        "spectron": "^15.0.0",
-        "style-loader": "^2.0.0",
-        "webpack": "^5.30.0",
-        "webpack-cli": "^4.6.0",
-        "webpack-merge": "^5.7.3",
-        "webpack-node-externals": "^3.0.0",
-        "bulma": "^0.8.2"
+        "@types/electron-devtools-installer": "2.2.0",
+        "@types/react": "^17.0.27",
+        "@types/react-dom": "^17.0.9",
+        "@typescript-eslint/eslint-plugin": "4.33.0",
+        "@typescript-eslint/parser": "^4.33.0",
+        "autoprefixer": "^9.8.8",
+        "cross-env": "7.0.3",
+        "electron": "15.1.1",
+        "electron-builder": "22.11.7",
+        "electron-devtools-installer": "3.2.0",
+        "eslint": "7.32.0",
+        "eslint-config-prettier": "^8.3.0",
+        "lint-staged": "11.2.0",
+        "playwright": "1.15.2",
+        "postcss": "^7.0.39",
+        "simple-git-hooks": "2.6.1",
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.16",
+        "typescript": "4.4.2",
+        "vite": "2.6.3"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.13.0",
-        "jquery": "^3.5.1",
-        "fs-jetpack": "^4.1.0"
+        "@vitejs/plugin-react": "^1.0.2",
+        "electron-updater": "4.6.0",
+        "fs-jetpack": "^4.1.0",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
     }
 }
