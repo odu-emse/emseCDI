@@ -2,15 +2,22 @@
 import { join } from 'path'
 
 // Packages
-import { BrowserWindow, app, ipcMain, IpcMainEvent } from 'electron'
+import { BrowserWindow, app, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
+import fs from 'fs'
+
+
+//custom packages
+// import { dir } from'./app'
 
 const height = 600
 const width = 800
 
+let window:any
+
 function createWindow() {
     // Create the browser window.
-    const window = new BrowserWindow({
+    window = new BrowserWindow({
         width,
         height,
         frame: true,
@@ -18,7 +25,9 @@ function createWindow() {
         resizable: true,
         fullscreenable: true,
         webPreferences: {
-            preload: join(__dirname, 'preload.js'),
+          nodeIntegration: false, // is default value after Electron v5
+          contextIsolation: true, // protect against prototype pollution
+          preload: join(__dirname, "preload.js") // use a preload script
         },
     })
 
@@ -57,11 +66,11 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-// listen the channel `message` and resend the received message to the renderer process
-ipcMain.on('message', (event: IpcMainEvent, message: any) => {
-    console.log(message)
-    setTimeout(() => event.sender.send('message', 'hi from electron'), 500)
-})
+//@ts-ignore
+ipcMain.on("toMain", (event, args) => {
+    // Do something with file contents
+    // Send result back to renderer process
+    fs.readdirSync(`${__dirname}/../assets/modules`, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => window.webContents.send("fromMain", dirent.name))
+});

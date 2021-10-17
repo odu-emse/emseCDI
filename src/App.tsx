@@ -11,6 +11,7 @@ import {
 import Module from './components/Module'
 import Home from './components/Home'
 import { getData } from './helper/fetch'
+import * as electron from 'electron'
 
 const App: React.FC = () => {
     const [title, setTitle] = useState('')
@@ -23,9 +24,8 @@ const App: React.FC = () => {
     })
     const getDir = () => {
         //TODO: use built in useEffect to fetch directory structure upon load
-        // ipcRenderer.on('directory', (event, args) => {
-        //     console.log(event)
-        // })
+        // ipcRenderer.send('message', 'ping')
+        // electron.notificationApi.sendNotification('something')
     }
 
     return (

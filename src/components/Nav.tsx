@@ -7,6 +7,17 @@ interface INav{
 }
 
 const Nav = ({title}:INav) => {
+    const [dir, setDir] = useState([])
+    useEffect(() => {
+      // @ts-ignore
+      window.api.send("toMain", "_");
+      // @ts-ignore
+      window.api.receive("fromMain", (data:any) => {
+        console.log(data)
+        // @ts-ignore
+        setDir(dir => [...dir, data]);
+      });
+    }, [])
 
     return (
         <nav className="flex flex-col lg:w-1/5 w-1/4 min-h-screen bg-gray-100 shadow-xl border-r-2 border-gray-200 py-2">
@@ -14,18 +25,13 @@ const Nav = ({title}:INav) => {
                 <h1>{title}</h1>
             </Link>
             <ul className="">
-                <Link to="/modules/1">
-                    <li className="px-4 py-2 hover:bg-gray-300">Module 1</li>
-                </Link>
-                <Link to="/modules/2">
-                    <li className="px-4 py-2 hover:bg-gray-300">Module 2</li>
-                </Link>
-                <Link to="/modules/3">
-                    <li className="px-4 py-2 hover:bg-gray-300">Module 3</li>
-                </Link>
-                <Link to="/modules/4">
-                    <li className="px-4 py-2 hover:bg-gray-300">Module 4</li>
-                </Link>
+              {
+                dir.map((dirr, index) => (
+                  <Link to={`/modules/${index + 1}`} key={dirr}>
+                    <li className="px-4 py-2 hover:bg-gray-300">Module {dirr}</li>
+                  </Link>
+                ))
+              }
             </ul>
         </nav>
     )
