@@ -2,13 +2,13 @@
 import { join } from 'path'
 
 // Packages
-import { BrowserWindow, app, ipcMain } from 'electron'
+import { BrowserWindow, app, ipcMain, session } from 'electron'
 import isDev from 'electron-is-dev'
 import fs from 'fs'
-
+import os from 'os'
 
 //custom packages
-// import { dir } from'./app'
+
 
 const height = 600
 const width = 800
@@ -57,6 +57,15 @@ app.whenReady().then(() => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+})
+
+const reactDevToolsPath = join(
+  os.homedir(),
+  '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
+)
+
+app.whenReady().then(async () => {
+  await session.defaultSession.loadExtension(reactDevToolsPath)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
