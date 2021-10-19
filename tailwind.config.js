@@ -11,5 +11,5 @@ module.exports = {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
         },
     },
-    plugins: [],
+    plugins: [require('@tailwindcss/aspect-ratio')],
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Markdown from 'markdown-to-jsx'
 import { getData } from '../helper/fetch'
 import Layout from './Layout'
+import ReactPlayer from 'react-player'
 
 const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
@@ -12,6 +13,8 @@ const Module: React.FC = (props) => {
     const {
         //@ts-ignore
         match: { params },
+        //@ts-ignore
+        title
     } = props
 
     useEffect(() => {
@@ -22,39 +25,49 @@ const Module: React.FC = (props) => {
 
         //if student is viewing the module page and page is fully loaded
         //@ts-ignore
-        if(props.match.url.includes('modules') && !loading){
-            let vid = document.getElementById('vid')
-            //if user has visited the module page already set video time to saved one
-            if(localStorage.getItem(`module${page}`)) {
-                const localData = localStorage.getItem(`module${page}`)
-                //@ts-ignore
-                const data = JSON.parse(localData)
-                //@ts-ignore
-                vid.currentTime = parseInt(data.time) | 0
-            }
-            //create local storage object if not visited already
-            else{
-                let moduleTimes: object = {
-                    "time": 0,
-                }
-                localStorage.setItem(`module${page}`, JSON.stringify(moduleTimes))
-                //@ts-ignore
-                vid.currentTime = 0
-            }
-        }
+        // if(props.match.url.includes('modules') && !loading){
+        //     let vid = document.getElementById('vid')
+        //     //if user has visited the module page already set video time to saved one
+        //     if(localStorage.getItem(`module${page}`)) {
+        //         const localData = localStorage.getItem(`module${page}`)
+        //         //@ts-ignore
+        //         const data = JSON.parse(localData)
+        //         //@ts-ignore
+        //         vid.currentTime = parseInt(data.time) | 0
+        //     }
+        //     //create local storage object if not visited already
+        //     else{
+        //         let moduleTimes: object = {
+        //             "time": 0,
+        //         }
+        //         localStorage.setItem(`module${page}`, JSON.stringify(moduleTimes))
+        //         //@ts-ignore
+        //         vid.currentTime = 0
+        //     }
+        // }
 
         const seed = `../../assets/modules/${page}/index.md`
         const src = `../../assets/modules/${page}/video.mp4`
-        getData(seed, 'md').then((data) => {
+        getData(seed, 'md')
+          .then((data) => {
             setPost(data)
             setSource(src)
+            if(src !== source){
+              setLoading(true)
+            }
+            else{
             setLoading(false)
+            }
+        })
+          .catch(e => {
+          console.error(e)
+          setLoading(false)
         })
 
-    }, [props, post, page, source])
+    }, [props, page, source])
 
     //call save timestamp function every 5 seconds
-    const interval = setInterval(() => saveTime(), 5000);
+    // const interval = setInterval(() => saveTime(), 5000);
 
     //save timestamp to local storage
     const saveTime = () => {
@@ -75,19 +88,16 @@ const Module: React.FC = (props) => {
     return loading && params.id !== page ? (<>loading....</>) : (
         <Layout>
             <h1 className="text-2xl mx-auto">
-                Welcome to ENMA 600 - Module {page}
+                Welcome to ENMA {title} - Module {page}
             </h1>
-            <video
-                controls={true}
-                className="mx-auto shadow-md"
-                autoPlay={false}
-                id="vid"
-            >
-                <source
-                    src={source}
-                    type="video/mp4"
-                />
-            </video>
+          <div className="aspect-w-16 aspect-h-9">
+            <ReactPlayer
+              width="100%"
+              height="100%"
+              url={source}
+              controls={true}
+            />
+          </div>
             <article>
                 <Markdown
                     options={{
