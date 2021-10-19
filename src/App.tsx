@@ -7,6 +7,7 @@ import {
     Route,
     Switch,
     BrowserRouter,
+    Redirect
 } from 'react-router-dom'
 import Module from './components/Module'
 import Home from './components/Home'
@@ -22,19 +23,17 @@ const App: React.FC = () => {
             setTitle(data.title)
         })
     })
-    const getDir = () => {
-        //TODO: use built in useEffect to fetch directory structure upon load
-        // ipcRenderer.send('message', 'ping')
-        // electron.notificationApi.sendNotification('something')
-    }
 
     return (
         <main className="flex flex-row">
             <BrowserRouter>
                 <Nav title={title}/>
                 <Switch>
+                    <Route exact path="/">
+                      <Redirect to="/home" /> : <Home />
+                    </Route>
                     <Route exact path="/home" component={Home} />
-                    <Route path="/modules/:id" component={Module} />
+                    <Route path="/modules/:id" render={(props) => <Module {...props} title={title} />} />
                 </Switch>
             </BrowserRouter>
         </main>
