@@ -1,15 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Layout from './Layout'
 
 const Home = () => {
     return (
         <Layout>
-            <button
-                className="bg-yellow-600 ring-2"
-                onClick={() => console.log('here')}
-            >
-                Get directories
-            </button>
+          <h1 className='text-3xl'>This is the Home.tsx component</h1>
         </Layout>
     )
 }
