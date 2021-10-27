@@ -79,89 +79,41 @@ ipcMain.on('toMain', (event, args) => {
     // Do something with file contents
     // Send result back to renderer process
 
+    let structure: any = []
+
     const stream = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
         dot: false,
         onlyFiles: false,
         markDirectories: false,
         onlyDirectories: true,
-        deep: 3,
+        deep: 1,
         absolute: false,
     })
 
-    // let float = new RegExp('([1-9]+(?:.[1-9]+)?)$')
-
     stream.map((dirs) => {
-        //some logic here that removes all characters besides numbers
-        // we might need to handle this differently due to subdirectories
+        const dir = dirs.replace(/[^0-9]/g, '')
+        structure.push(dir)
     })
 
-    window.webContents.send('fromMain', stream)
+    // The below lines are commented out since we aren't focused on nested directories for now
 
-    // fs.readdirSync(`${__dirname}/../assets/modules`, { withFileTypes: true })
-    //     .filter((dirent) => dirent.isDirectory())
-    //     .map((dirent) => {
-    //         //@ts-ignore
-    //         const lessons = fs.readdirSync(
-    //             `${__dirname}/../assets/modules/${dirent.name}`,
-    //             {
-    //                 withFileTypes: true,
-    //             }
-    //         )
-    //         //this holds all of our module folder names
-    //         modules.push(dirent.name)
-
-    //         //@ts-ignore
-    //         modules.map((mod: any) => {
-    //             lessons.map((lesson) => {
-    //                 if (lesson.isDirectory()) {
-    //                 }
-    //             })
-    //         })
-
-    // let ls = {
-    //         "module": {
-    //             "lessons": []
-    //         }
-    //     }
-
-    // lessons.map((lessons) => {
-    //     if (lessons.isDirectory()) {
-    //         console.log(
-    //             `${__dirname}/../assets/modules/${dirent.name}/${lessons.name}`
-    //         )
-    //         ls = {
-    //             dirent.name: lessons.name}
-    //         // window.webContents.send('fromMain', lessons.name)
-    //     } else {
-    //         // window.webContents.send('fromMain', dirent.name)
-    //     }
+    // const oneLevelDeeper = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
+    //     dot: false,
+    //     onlyFiles: false,
+    //     markDirectories: false,
+    //     onlyDirectories: true,
+    //     deep: 3,
+    //     absolute: false,
+    // })
+    // oneLevelDeeper.map((dirs) => {
+    //     const dir = dirs.match(/([0-9]+\.?[0-9]*|[0-9]*\.?[0-9]+)$/)
+    //     //@ts-ignore
+    //     console.log(dir[0])
+    //     //@ts-ignore
+    //     structure.push(dir[0])
     // })
 
-    // .filter((dir) => dir.isDirectory())
-    // .map((modules) => {
-    //     console.log(
-    //         `${__dirname}/../assets/modules/${dirent.name}/${modules.name}`
-    //     )
-    // })
-    // window.webContents.send('fromMain', dirent)
-    // })
+    let str = [...new Set(structure)]
+
+    window.webContents.send('fromMain', str)
 })
-
-//@ts-ignore
-// ipcMain.on('getModules', (event, args) => {
-//     // loop over all the elements in the modules directory
-//     // filter out the directories
-//     // map over the directories only
-//     fs.readdirSync(`${__dirname}/../assets/modules`, { withFileTypes: true })
-//         .filter((dirent) => dirent.isDirectory())
-//         .map((dirent) => {
-//             fs.readdirSync(`${__dirname}/../assets/modules/${dirent.name}`, {
-//                 withFileTypes: true,
-//             })
-//                 .filter((dir) => dir.isDirectory())
-//                 .map((dir) => {
-//                     console.log(`/assets/${dirent.name}/${dir.name}`)
-//                     window.webContents.send('toModules', dir.name)
-//                 })
-//         })
-// })
