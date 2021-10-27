@@ -4,16 +4,15 @@ import { join } from 'path'
 // Packages
 import { BrowserWindow, app, ipcMain, session } from 'electron'
 import isDev from 'electron-is-dev'
-import fs from 'fs'
 import os from 'os'
+import fg from 'fast-glob'
 
 //custom packages
-
 
 const height = 600
 const width = 800
 
-let window:any
+let window: any
 
 function createWindow() {
     // Create the browser window.
@@ -25,9 +24,9 @@ function createWindow() {
         resizable: true,
         fullscreenable: true,
         webPreferences: {
-          nodeIntegration: false, // is default value after Electron v5
-          contextIsolation: true, // protect against prototype pollution
-          preload: join(__dirname, "preload.js") // use a preload script
+            nodeIntegration: false, // is default value after Electron v5
+            contextIsolation: true, // protect against prototype pollution
+            preload: join(__dirname, 'preload.js'), // use a preload script
         },
     })
 
@@ -39,11 +38,11 @@ function createWindow() {
     // and load the index.html of the app.
     if (isDev) {
         window?.loadURL(url)
+        // Open the DevTools.
+        window.webContents.openDevTools()
     } else {
         window?.loadFile(url)
     }
-    // Open the DevTools.
-    window.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -60,12 +59,12 @@ app.whenReady().then(() => {
 })
 
 const reactDevToolsPath = join(
-  os.homedir(),
-  '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
+    os.homedir(),
+    '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
 )
 
 app.whenReady().then(async () => {
-  await session.defaultSession.loadExtension(reactDevToolsPath)
+    await session.defaultSession.loadExtension(reactDevToolsPath)
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -76,10 +75,45 @@ app.on('window-all-closed', () => {
 })
 
 //@ts-ignore
-ipcMain.on("toMain", (event, args) => {
+ipcMain.on('toMain', (event, args) => {
     // Do something with file contents
     // Send result back to renderer process
-    fs.readdirSync(`${__dirname}/../assets/modules`, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => window.webContents.send("fromMain", dirent.name))
-});
+
+    let structure: any = []
+
+    const stream = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
+        dot: false,
+        onlyFiles: false,
+        markDirectories: false,
+        onlyDirectories: true,
+        deep: 1,
+        absolute: false,
+    })
+
+    stream.map((dirs) => {
+        const dir = dirs.replace(/[^0-9]/g, '')
+        structure.push(dir)
+    })
+
+    // The below lines are commented out since we aren't focused on nested directories for now
+
+    // const oneLevelDeeper = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
+    //     dot: false,
+    //     onlyFiles: false,
+    //     markDirectories: false,
+    //     onlyDirectories: true,
+    //     deep: 3,
+    //     absolute: false,
+    // })
+    // oneLevelDeeper.map((dirs) => {
+    //     const dir = dirs.match(/([0-9]+\.?[0-9]*|[0-9]*\.?[0-9]+)$/)
+    //     //@ts-ignore
+    //     console.log(dir[0])
+    //     //@ts-ignore
+    //     structure.push(dir[0])
+    // })
+
+    let str = [...new Set(structure)]
+
+    window.webContents.send('fromMain', str)
+})

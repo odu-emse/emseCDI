@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import Markdown from 'markdown-to-jsx'
-import { getData } from '../helper/fetch'
+import { getData } from '../util/fetch'
 
 const Home = () => {
     const [courseContent, setCourseContent] = useState('# Welcome to ENMA 600')
 
     useEffect(() => {
         let mounted = true
-        getData('../assets/modules/index.md', 'md').then((res) => {
-            if (mounted) {
-                setCourseContent(res)
-            }
-        }).catch(e => console.error(e))
-        return function cleanup(){
+        getData('../assets/modules/index.md', 'md')
+            .then((res) => {
+                if (mounted) {
+                    setCourseContent(res)
+                }
+            })
+            .catch((e) => console.error(e))
+        return function cleanup() {
             mounted = false
         }
     }, [])

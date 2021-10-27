@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { getData } from '../helper/fetch'
-import {Link} from 'react-router-dom'
+import { getData } from '../util/fetch'
+import { Link } from 'react-router-dom'
+import MenuItem from './MenuItem'
 
-interface INav{
+interface INav {
     title: string
 }
 
-const Nav = ({title}:INav) => {
+const Nav = ({ title }: INav) => {
     const [dir, setDir] = useState([])
+
     useEffect(() => {
-      // @ts-ignore
-      window.api.send("toMain", "_");
-      // @ts-ignore
-      window.api.receive("fromMain", (data:any) => {
         // @ts-ignore
-        setDir(dir => [...dir, data]);
-      });
+        window.api.send('toMain', '_')
+        // @ts-ignore
+        window.api.receive('fromMain', (data: any) => {
+            console.log(data)
+
+            // @ts-ignore
+            setDir(data)
+        })
     }, [])
 
     return (
@@ -23,14 +27,10 @@ const Nav = ({title}:INav) => {
             <Link to="/home" className="mx-auto font-bold text-2xl">
                 <h1>{title}</h1>
             </Link>
-            <ul className="">
-              {
-                dir.map((dirr, index) => (
-                  <Link to={`/modules/${index + 1}`} key={dirr}>
-                    <li className="px-4 py-2 hover:bg-gray-300">Module {dirr}</li>
-                  </Link>
-                ))
-              }
+            <ul>
+                {dir.map((dirr, index) => (
+                    <MenuItem index={index} key={index} dirr={dirr} />
+                ))}
             </ul>
         </nav>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 
 interface Props {
     children?: React.ReactNode
-    onClick: () => void
+    onClick?: () => void
     variant: string
     className: string
     size: string
@@ -12,8 +12,7 @@ const cls = (input: string) =>
     input.replace(/\s+/gm, ' ').split(' ').join(' ').trim()
 
 const classes = {
-    base: 'focus:outline-none transition ease-in-out duration-300',
-    pill: 'rounded-full',
+    base: 'focus:outline-none transition ease-in-out duration-300 py-2',
     size: {
         small: 'px-2 py-1 text-sm',
         normal: 'px-4 py-2',
@@ -29,6 +28,12 @@ const classes = {
         prev: '',
         warning: '',
         disabled: 'opacity-50 cursor-not-allowed',
+        tabActive: 'rounded-t-lg border-t-4 border-gray-50 bg-gray-300 mx-1',
+        tabInactive: 'rounded-t-lg border-t-4 border-gray-100 mx-1',
+        default:
+            'bg-gray-300 hover:bg-gray-500 hover:text-white focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-black',
+        success:
+            'bg-green-500 hover:bg-green-700 focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 text-white',
     },
 }
 
