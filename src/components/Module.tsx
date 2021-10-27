@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
-import { getData } from '../helper/fetch'
+import { getData } from '../util/fetch'
 import Layout from './Layout'
 import ReactPlayer from 'react-player'
 import ModuleContent from './ModuleContent'
@@ -9,11 +9,13 @@ import Button from './Button'
 
 const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
+    const [vid, setVid] = useState()
     const [post, setPost] = useState('# Hello')
     const [source, setSource] = useState('../../assets/modules/1/video.mp4')
     const [loading, setLoading] = useState(true)
     const [preview, setPreview] = useState('edit')
     const [notes, setNotes] = useState('')
+    const [sideBySide, setSideBySide] = useState(false)
 
     const {
         //@ts-ignore
@@ -24,6 +26,7 @@ const Module: React.FC = (props) => {
 
     useEffect(() => {
         setPage(params.id)
+        setVid(params.videoID)
 
         let time
         let data
@@ -95,62 +98,109 @@ const Module: React.FC = (props) => {
             <h1 className="text-2xl mx-auto">
                 Welcome to {title} - Module {page}
             </h1>
-            <div className="aspect-w-16 aspect-h-9">
-                <ReactPlayer
-                    width="100%"
-                    height="100%"
-                    url={source}
-                    controls={true}
-                />
-            </div>
-            <section className="my-5">
-                <h2 className="text-2xl mx-auto font-bold">Your notes</h2>
-
-                <div className="flex flex-row justify-between">
-                    <Button
-                        size="small"
-                        onClick={() => setPreview('edit')}
-                        variant={preview === 'edit' ? "primary" : 'secondary'}
-                        className="w-1/4"
-                    >Edit</Button>
-                    <Button
-                        size="small"
-                        onClick={() => setPreview('live')}
-                        variant={preview === 'live' ? "primary" : 'secondary'}
-                        className="w-1/4"
-                    >Live edit</Button>
-                    <Button
-                        size="small"
-                        onClick={() => setPreview('preview')}
-                        variant={preview === 'preview' ? "primary" : 'secondary'}
-                        className="w-1/4"
-                    >Preview</Button>
-                </div>
-
-                <section className="shadow-sm my-1 border-2 border-gray-100">
-                    <MDEditor
-                        value={notes}
-                        onChange={setNotes}
-                        hideToolbar={true}
-                        preview={preview}
+            <Button
+                className="absolute top-4 right-1 px-4 py-2 rounded-lg"
+                size="sm"
+                variant="secondary"
+                onClick={() => setSideBySide(!sideBySide)}
+            >
+                Switch views
+            </Button>
+            <div
+                className={`flex ${
+                    sideBySide
+                        ? 'flex-row justify-between items-start'
+                        : 'flex-col items-center'
+                }`}
+            >
+                <div
+                    className={`aspect-w-16 aspect-h-9 ${
+                        sideBySide ? 'w-full mr-2' : 'w-full'
+                    }`}
+                >
+                    <ReactPlayer
+                        width={`${sideBySide ? 'auto' : '100%'}`}
+                        height={`${sideBySide ? 'auto' : '100%'}`}
+                        url={source}
+                        controls={true}
                     />
+                </div>
+                <section
+                    className={`my-5 bg-gray-100 shadow-md py-2 px-2 border border-gray-200 ${
+                        sideBySide ? 'w-full ml-2' : 'w-full'
+                    }`}
+                >
+                    <div className="flex flex-row">
+                        <Button
+                            size="small"
+                            onClick={() => setPreview('edit')}
+                            variant={
+                                preview === 'edit' ? 'tabActive' : 'tabInactive'
+                            }
+                            className="px-4"
+                        >
+                            Edit
+                        </Button>
+                        <Button
+                            size="small"
+                            onClick={() => setPreview('live')}
+                            variant={
+                                preview === 'live' ? 'tabActive' : 'tabInactive'
+                            }
+                            className="px-4"
+                        >
+                            Live edit
+                        </Button>
+                        <Button
+                            size="small"
+                            onClick={() => setPreview('preview')}
+                            variant={
+                                preview === 'preview'
+                                    ? 'tabActive'
+                                    : 'tabInactive'
+                            }
+                            className="px-4"
+                        >
+                            Preview
+                        </Button>
+                    </div>
+
+                    <section className="mb-2 border-0">
+                        <MDEditor
+                            value={notes}
+                            onChange={setNotes}
+                            hideToolbar={true}
+                            preview={preview}
+                        />
+                    </section>
+                    <div className="flex justify-end">
+                        <Button
+                            size="small"
+                            variant="secondary"
+                            className="w-1/5 ml-auto block rounded-lg mb-2"
+                        >
+                            Load notes
+                        </Button>
+                        <Button
+                            size="small"
+                            onClick={() => {
+                                let data = new Blob([notes], {
+                                    type: 'text/plain;charset=utf-8',
+                                })
+                                FileSaver.saveAs(data, 'notes.md')
+                            }}
+                            variant="success"
+                            className="w-1/5 ml-2 block rounded-lg mb-2"
+                        >
+                            Save notes
+                        </Button>
+                    </div>
+                    <i className="text-xs text-gray-500 text-right block w-full">
+                        Please note that in order to save your notes you need to
+                        have write privileges on your computer.
+                    </i>
                 </section>
-                <Button
-                    size="small"
-                    onClick={() => {
-                        let data = new Blob([notes], {
-                            type: 'text/plain;charset=utf-8',
-                        })
-                        FileSaver.saveAs(data, 'notes.md')
-                    }}
-                    variant="primary"
-                    className="w-1/2 mx-auto block"
-                >Save notes</Button>
-                <i className="text-sm text-gray-500 text-center block w-full">
-                    Please note that in order to save your notes you need to
-                    have write privileges on your computer.
-                </i>
-            </section>
+            </div>
             <ModuleContent content={post} />
         </Layout>
     )
