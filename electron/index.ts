@@ -122,27 +122,5 @@ ipcMain.on('toMain', (event, args) => {
             course.push(mod)
         })
 
-  console.log(course)
-
-    // let str = [...new Set(getStructure(`${process.cwd()}/assets/modules/**/*`))]
-
-    // The below lines are commented out since we aren't focused on nested directories for now
-
-    // const oneLevelDeeper = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
-    //     dot: false,
-    //     onlyFiles: false,
-    //     markDirectories: false,
-    //     onlyDirectories: true,
-    //     deep: 3,
-    //     absolute: false,
-    // })
-    // oneLevelDeeper.map((dirs) => {
-    //     const dir = dirs.match(/([0-9]+\.?[0-9]*|[0-9]*\.?[0-9]+)$/)
-    //     //@ts-ignore
-    //     console.log(dir[0])
-    //     //@ts-ignore
-    //     structure.push(dir[0])
-    // })
-
     window.webContents.send('fromMain', course)
 })
