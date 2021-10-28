@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Lesson:React.FC = () => {
+const Lesson:React.FC = (props) => {
   return (
     <div>
-      This is a lesson
+      This is a Module {props.match.params.id}
     </div>
   )
 }
