@@ -54,8 +54,10 @@ const Module: React.FC = (props) => {
         //     }
         // }
 
+        console.log(params)
+
         const seed = `../../assets/modules/${page}/index.md`
-        const src = `../../assets/modules/${page}/video.mp4`
+        const src = `../../assets/modules/${page}/${vid}.mp4`
         getData(seed, 'md')
             .then((data) => {
                 setPost(data)
@@ -70,7 +72,7 @@ const Module: React.FC = (props) => {
                 console.error(e)
                 setLoading(false)
             })
-    }, [props, page, source, preview])
+    }, [props, page, source, preview, vid])
 
     //call save timestamp function every 5 seconds
     // const interval = setInterval(() => saveTime(), 5000);
@@ -96,7 +98,7 @@ const Module: React.FC = (props) => {
     ) : (
         <Layout>
             <h1 className="text-2xl mx-auto">
-                Welcome to {title} - Module {page}
+                Welcome to {title} - Module {page} / Video {vid}
             </h1>
             <Button
                 className="absolute top-4 right-1 px-4 py-2 rounded-lg"
