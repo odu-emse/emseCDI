@@ -1,11 +1,12 @@
 // Native
-import { join } from 'path'
+import path, { join } from 'path'
 
 // Packages
 import { BrowserWindow, app, ipcMain, session } from 'electron'
 import isDev from 'electron-is-dev'
 import os from 'os'
 import fg from 'fast-glob'
+import fs from 'fs'
 
 //custom packages
 
@@ -74,26 +75,56 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
+const getStructure = (
+    source: string,
+    filter = { dir: true, files: false, depth: 1 }
+) => {
+    let structure: any = []
+
+    const stream = fg.sync([source], {
+        dot: false,
+        onlyFiles: filter.files,
+        markDirectories: false,
+        onlyDirectories: filter.dir,
+        deep: filter.depth,
+        absolute: false,
+    })
+
+    stream.map((file) => {
+        // const dir = dirs.replace(/[^0-9]/g, '')
+        const vid = path.parse(file)
+        structure.push(vid.name)
+    })
+    return structure
+}
+
 //@ts-ignore
 ipcMain.on('toMain', (event, args) => {
     // Do something with file contents
     // Send result back to renderer process
 
-    let structure: any = []
+    let course: any = []
 
-    const stream = fg.sync([`${process.cwd()}/assets/modules/**/*`], {
-        dot: false,
-        onlyFiles: false,
-        markDirectories: false,
-        onlyDirectories: true,
-        deep: 1,
-        absolute: false,
-    })
+    fs.readdirSync(`${process.cwd()}/assets/modules/`, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => {
+            let vids = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/*.mp4`,
+                { dir: false, files: true, depth: 1 }
+            )
+            let mod: any = {
+                name: dirent.name,
+                videos: [],
+            }
+            vids.map((vid: string) => {
+                mod.videos.push(vid)
+            })
+            course.push(mod)
+        })
 
-    stream.map((dirs) => {
-        const dir = dirs.replace(/[^0-9]/g, '')
-        structure.push(dir)
-    })
+  console.log(course)
+
+    // let str = [...new Set(getStructure(`${process.cwd()}/assets/modules/**/*`))]
 
     // The below lines are commented out since we aren't focused on nested directories for now
 
@@ -113,7 +144,5 @@ ipcMain.on('toMain', (event, args) => {
     //     structure.push(dir[0])
     // })
 
-    let str = [...new Set(structure)]
-
-    window.webContents.send('fromMain', str)
+    window.webContents.send('fromMain', course)
 })

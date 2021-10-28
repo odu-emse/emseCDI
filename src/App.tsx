@@ -33,14 +33,14 @@ const App: React.FC = () => {
                     </Route>
                     <Route exact path="/home" component={Home} />
                     <Route
-                        path="/modules/:id/:videoID"
+                        path="/modules/:id"
                         exact
-                        render={(props) => <Module {...props} title={title} />}
+                        render={(props) => <Lesson {...props} title={title} />}
                     />
                     <Route
-                        path="/modules/:id/"
+                        path="/modules/:id/:videoID"
                         exact
-                        component={Lesson}
+                        component={Module}
                     />
                 </Switch>
             </BrowserRouter>

@@ -3,23 +3,21 @@ import { Link } from 'react-router-dom'
 
 interface Props {
     open: boolean
-    dirr: string
+    dirr: [string]
     vid: number
 }
 
-const SubMenuItem: React.FC<Props> = ({ open, dirr, vid }) => {
+const SubMenuItem: React.FC<Props> = ({ open, dirr, vid, video, module }) => {
     useEffect(() => {}, [open])
     return (
         <>
-            {/* <Link to={`/modules/${dirr}/${vid}`}> */}
+             <Link to={`/modules/${module}/${video}`}>
             <li
-                className={`pl-8 transition-all ${
-                    open ? 'block' : 'hidden'
-                } hover:bg-gray-300 cursor-pointer`}
+                className={`pl-8 transition-all hover:bg-gray-300 cursor-pointer ${open ? 'block' : 'hidden'}`}
             >
                 Video {vid}
             </li>
-            {/* </Link> */}
+             </Link>
         </>
     )
 }
