@@ -4,7 +4,10 @@ import SubMenuItem from './SubMenuItem'
 
 interface Props {
     index: number
-    dirr: object
+    dirr: {
+        name: string
+        videos: [string]
+    }
 }
 
 const MenuItem: React.FC<Props> = ({ index, dirr }) => {
@@ -16,15 +19,6 @@ const MenuItem: React.FC<Props> = ({ index, dirr }) => {
 
     useEffect(() => {
         setOpen(false)
-
-        // // @ts-ignore
-        // window.api.send('getModules', '_')
-        // // @ts-ignore
-        // window.api.receive('toModules', (data: any) => {
-        //     console.log(data)
-        //     // @ts-ignore
-        //     setDir((dir) => [...dir, data])
-        // })
     }, [])
 
     return (
@@ -32,7 +26,7 @@ const MenuItem: React.FC<Props> = ({ index, dirr }) => {
             <Link to={`/modules/${dirr.name}`}>
                 <li
                     className="px-4 py-2 hover:bg-gray-300 cursor-pointer"
-                    key={dirr}
+                    key={dirr.name}
                     onClick={() => setOpen(!open)}
                 >
                     Module {dirr.name}
@@ -42,8 +36,6 @@ const MenuItem: React.FC<Props> = ({ index, dirr }) => {
                 <SubMenuItem
                     open={open}
                     key={index}
-                    dirr={dirr.videos[index]}
-                    vid={vid}
                     module={dirr.name}
                     video={vid}
                 />

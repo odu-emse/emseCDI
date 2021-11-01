@@ -11,11 +11,12 @@ const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
     const [vid, setVid] = useState()
     const [post, setPost] = useState('# Hello')
-    const [source, setSource] = useState('../../assets/modules/1/video.mp4')
+    const [source, setSource] = useState('../../assets/modules/1/1.mp4')
     const [loading, setLoading] = useState(true)
     const [preview, setPreview] = useState('edit')
     const [notes, setNotes] = useState('')
     const [sideBySide, setSideBySide] = useState(false)
+    const [active, setActive] = useState('Overview')
 
     const {
         //@ts-ignore
@@ -127,10 +128,77 @@ const Module: React.FC = (props) => {
                         controls={true}
                     />
                 </div>
+              <section className="flex flex-row w-full my-4" style={{boxShadow: 'inset 0 -2px rgba(0,0,0,0.1)'}}>
+                  <Button
+                    size="small"
+                    name="Search"
+                    variant={
+                      active === 'Search' ? 'active' : 'default'
+                    }
+                    onClick={(e:object) => setActive(e.target.name)}
+                    className="pr-4 pl-0"
+                  >
+                    Search transcript
+                  </Button>
+                  <Button
+                    size="small"
+                    name="Overview"
+                    variant={
+                      active === 'Overview' ? 'active' : 'default'
+                    }
+                    onClick={(e:object) => setActive(e.target.name)}
+                    className="px-4"
+                  >
+                    Overview
+                  </Button>
+                  <Button
+                    size="small"
+                    name="Notes"
+                    variant={
+                      active === 'Notes' ? 'active' : 'default'
+                    }
+                    onClick={(e:object) => setActive(e.target.name)}
+                    className="px-4"
+                  >
+                    Notes
+                  </Button>
+                  <Button
+                    size="small"
+                    name="Resources"
+                    variant={
+                      active === 'Resources' ? 'active' : 'default'
+                    }
+                    onClick={(e:object) => setActive(e.target.name)}
+                    className="px-4"
+                  >
+                    Resources
+                  </Button>
+                  <Button
+                    size="small"
+                    name="Exercises"
+                    variant={
+                      active === 'Exercises' ? 'active' : 'default'
+                    }
+                    onClick={(e:object) => setActive(e.target.name)}
+                    className="px-4"
+                  >
+                    Exercises
+                  </Button>
+              </section>
+                {/*Search section*/}
+                <section className={`w-full ${active === 'Search' ? 'visible' : 'hidden'}`}>
+                  <input className={`shadow-inner w-full border-2 border-gray-100 focus:ring-2 focus:ring-blue-400 outline-none py-2 px-4 my-3 transition-all`} type='text' placeholder={`Search through lesson's transcript`}/>
+                </section>
+                {/*Overview section*/}
+                <section className={`${active === 'Overview' ? 'visible' : 'hidden'}`}>
+                  <ModuleContent content={post} />
+                </section>
+
+                {/*Notes section*/}
                 <section
                     className={`my-5 bg-gray-100 shadow-md py-2 px-2 border border-gray-200 ${
                         sideBySide ? 'w-full ml-2' : 'w-full'
-                    }`}
+                    } ${active === 'Notes' ? 'visible' : 'hidden'}`}
                 >
                     <div className="flex flex-row">
                         <Button
@@ -203,7 +271,7 @@ const Module: React.FC = (props) => {
                     </i>
                 </section>
             </div>
-            <ModuleContent content={post} />
+
         </Layout>
     )
 }

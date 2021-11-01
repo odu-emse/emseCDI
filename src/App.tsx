@@ -35,7 +35,7 @@ const App: React.FC = () => {
                     <Route
                         path="/modules/:id"
                         exact
-                        render={(props) => <Lesson {...props} />}
+                        component={Lesson}
                     />
                     <Route
                         path="/modules/:id/:videoID"

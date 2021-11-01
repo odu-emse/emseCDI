@@ -12,7 +12,7 @@ const cls = (input: string) =>
     input.replace(/\s+/gm, ' ').split(' ').join(' ').trim()
 
 const classes = {
-    base: 'focus:outline-none transition ease-in-out duration-300 py-2',
+    base: 'focus:outline-none transition-all ease-in-out duration-300 py-2',
     size: {
         small: 'px-2 py-1 text-sm',
         normal: 'px-4 py-2',
@@ -31,7 +31,8 @@ const classes = {
         tabActive: 'rounded-t-lg border-t-4 border-gray-50 bg-gray-300 mx-1',
         tabInactive: 'rounded-t-lg border-t-4 border-gray-100 mx-1',
         default:
-            'bg-gray-300 hover:bg-gray-500 hover:text-white focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 text-black',
+            'text-gray-400 hover:text-gray-800 text-md font-bold text-black border-b-2 border-transparent',
+        active: 'text-gray-800 text-md font-bold text-black border-b-2 border-gray-700',
         success:
             'bg-green-500 hover:bg-green-700 focus:ring-2 focus:ring-green-700 focus:ring-opacity-50 text-white',
     },
