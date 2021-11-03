@@ -75,9 +75,16 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
+interface IStructureFilter {
+    dir?: boolean
+    files?: boolean
+    depth?: number
+}
+
 const getStructure = (
     source: string,
-    filter = { dir: true, files: false, depth: 1 }
+    filter: IStructureFilter,
+    flag?: string
 ) => {
     let structure: any = []
 
@@ -91,9 +98,14 @@ const getStructure = (
     })
 
     stream.map((file) => {
-        // const dir = dirs.replace(/[^0-9]/g, '')
-        const vid = path.parse(file)
-        structure.push(vid.name)
+        let asset
+        if (flag === 'rsc' || flag === 'exe') {
+            asset = path.parse(file)
+            structure.push(asset.base)
+        } else {
+            asset = path.parse(file)
+            structure.push(asset.name)
+        }
     })
     return structure
 }
@@ -108,6 +120,16 @@ ipcMain.on('toMain', (event, args) => {
     fs.readdirSync(`${process.cwd()}/assets/modules/`, { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => {
+            let rsc = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/Resources/**.*`,
+                { dir: false, files: true, depth: 1 },
+                'rsc'
+            )
+            let exe = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/Exercises/**.*`,
+                { dir: false, files: true, depth: 1 },
+                'exe'
+            )
             let vids = getStructure(
                 `${process.cwd()}/assets/modules/${dirent.name}/*.mp4`,
                 { dir: false, files: true, depth: 1 }
@@ -115,12 +137,32 @@ ipcMain.on('toMain', (event, args) => {
             let mod: any = {
                 name: dirent.name,
                 videos: [],
+                resources: [],
+                exercises: [],
             }
-            vids.map((vid: string) => {
-                mod.videos.push(vid)
-            })
+            if (vids.length > 0) {
+                vids.map((vid: string) => {
+                    mod.videos.push(vid)
+                })
+            }
+            if (rsc.length > 0) {
+                rsc.map((resource: string) => {
+                    mod.resources.push(resource)
+                })
+            }
+            if (exe.length > 0) {
+                exe.map((exercise: string) => {
+                    mod.exercises.push(exercise)
+                })
+            }
             course.push(mod)
         })
 
-    window.webContents.send('fromMain', course)
+    window.webContents.send(
+        'fromMain',
+        course.sort((x: object, y: object) => {
+            //@ts-ignore
+            return x.name - y.name
+        })
+    )
 })
