@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron'
 import React, { useEffect, useState } from 'react'
 import Nav from './components/Nav'
 import {
@@ -7,11 +6,12 @@ import {
     Route,
     Switch,
     BrowserRouter,
+    Redirect,
 } from 'react-router-dom'
 import Module from './components/Module'
 import Home from './components/Home'
-import { getData } from './helper/fetch'
-import * as electron from 'electron'
+import { getData } from './util/fetch'
+import Lesson from './components/Lesson'
 
 const App: React.FC = () => {
     const [title, setTitle] = useState('')
@@ -22,19 +22,26 @@ const App: React.FC = () => {
             setTitle(data.title)
         })
     })
-    const getDir = () => {
-        //TODO: use built in useEffect to fetch directory structure upon load
-        // ipcRenderer.send('message', 'ping')
-        // electron.notificationApi.sendNotification('something')
-    }
 
     return (
         <main className="flex flex-row">
             <BrowserRouter>
-                <Nav title={title}/>
+                <Nav title={title} />
                 <Switch>
+                    <Route exact path="/">
+                        <Redirect to="/home" /> : <Home />
+                    </Route>
                     <Route exact path="/home" component={Home} />
-                    <Route path="/modules/:id" component={Module} />
+                    <Route
+                        path="/modules/:id"
+                        exact
+                        component={Lesson}
+                    />
+                    <Route
+                        path="/modules/:id/:videoID"
+                        exact
+                        component={Module}
+                    />
                 </Switch>
             </BrowserRouter>
         </main>

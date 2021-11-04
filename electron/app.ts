@@ -1,16 +1,24 @@
-// @ts-ignore
 import fs from 'fs'
-//
-export const dir = () => {
+
+export const dir = (): [string] | null => {
+  try {
+    // @ts-ignore
+    let arr:[string] = []
     fs.readdir(`${__dirname}/../assets/modules`, (err, files) => {
-        console.log('dir')
-        if (err) console.log(err)
-        else {
-            console.log('\nCurrent directory filenames:')
-            files.forEach((file) => {
-                console.log(file)
-            })
-        }
+      if (err){
+        console.error(err)
+        return null
+      }
+      else {
+        files.forEach((file) => {
+          arr.push(file)
+        })
+        return arr
+      }
     })
+    return arr
+  }catch (e) {
+    console.error(e)
+    return null
+  }
 }
-console.log('here')

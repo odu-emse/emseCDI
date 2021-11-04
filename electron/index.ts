@@ -1,19 +1,19 @@
 // Native
-import { join } from 'path'
+import path, { join } from 'path'
 
 // Packages
-import { BrowserWindow, app, ipcMain } from 'electron'
+import { BrowserWindow, app, ipcMain, session } from 'electron'
 import isDev from 'electron-is-dev'
+import os from 'os'
+import fg from 'fast-glob'
 import fs from 'fs'
 
-
 //custom packages
-// import { dir } from'./app'
 
 const height = 600
 const width = 800
 
-let window:any
+let window: any
 
 function createWindow() {
     // Create the browser window.
@@ -25,9 +25,9 @@ function createWindow() {
         resizable: true,
         fullscreenable: true,
         webPreferences: {
-          nodeIntegration: false, // is default value after Electron v5
-          contextIsolation: true, // protect against prototype pollution
-          preload: join(__dirname, "preload.js") // use a preload script
+            nodeIntegration: false, // is default value after Electron v5
+            contextIsolation: true, // protect against prototype pollution
+            preload: join(__dirname, 'preload.js'), // use a preload script
         },
     })
 
@@ -39,11 +39,11 @@ function createWindow() {
     // and load the index.html of the app.
     if (isDev) {
         window?.loadURL(url)
+        // Open the DevTools.
+        window.webContents.openDevTools()
     } else {
         window?.loadFile(url)
     }
-    // Open the DevTools.
-    window.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -59,6 +59,15 @@ app.whenReady().then(() => {
     })
 })
 
+const reactDevToolsPath = join(
+    os.homedir(),
+    '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
+)
+
+app.whenReady().then(async () => {
+    await session.defaultSession.loadExtension(reactDevToolsPath)
+})
+
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
@@ -66,11 +75,94 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
+interface IStructureFilter {
+    dir?: boolean
+    files?: boolean
+    depth?: number
+}
+
+const getStructure = (
+    source: string,
+    filter: IStructureFilter,
+    flag?: string
+) => {
+    let structure: any = []
+
+    const stream = fg.sync([source], {
+        dot: false,
+        onlyFiles: filter.files,
+        markDirectories: false,
+        onlyDirectories: filter.dir,
+        deep: filter.depth,
+        absolute: false,
+    })
+
+    stream.map((file) => {
+        let asset
+        if (flag === 'rsc' || flag === 'exe') {
+            asset = path.parse(file)
+            structure.push(asset.base)
+        } else {
+            asset = path.parse(file)
+            structure.push(asset.name)
+        }
+    })
+    return structure
+}
+
 //@ts-ignore
-ipcMain.on("toMain", (event, args) => {
+ipcMain.on('toMain', (event, args) => {
     // Do something with file contents
     // Send result back to renderer process
-    fs.readdirSync(`${__dirname}/../assets/modules`, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => window.webContents.send("fromMain", dirent.name))
-});
+
+    let course: any = []
+
+    fs.readdirSync(`${process.cwd()}/assets/modules/`, { withFileTypes: true })
+        .filter((dirent) => dirent.isDirectory())
+        .map((dirent) => {
+            let rsc = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/Resources/**.*`,
+                { dir: false, files: true, depth: 1 },
+                'rsc'
+            )
+            let exe = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/Exercises/**.*`,
+                { dir: false, files: true, depth: 1 },
+                'exe'
+            )
+            let vids = getStructure(
+                `${process.cwd()}/assets/modules/${dirent.name}/*.mp4`,
+                { dir: false, files: true, depth: 1 }
+            )
+            let mod: any = {
+                name: dirent.name,
+                videos: [],
+                resources: [],
+                exercises: [],
+            }
+            if (vids.length > 0) {
+                vids.map((vid: string) => {
+                    mod.videos.push(vid)
+                })
+            }
+            if (rsc.length > 0) {
+                rsc.map((resource: string) => {
+                    mod.resources.push(resource)
+                })
+            }
+            if (exe.length > 0) {
+                exe.map((exercise: string) => {
+                    mod.exercises.push(exercise)
+                })
+            }
+            course.push(mod)
+        })
+
+    window.webContents.send(
+        'fromMain',
+        course.sort((x: object, y: object) => {
+            //@ts-ignore
+            return x.name - y.name
+        })
+    )
+})
