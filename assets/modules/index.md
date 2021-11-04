@@ -1,123 +1,56 @@
-# ENMA 600 – Cost Estimation and Financial Analysis
+# Syllabus
+## Course Overview
+Integrated analysis of quality assurance function. Defining quality: Deming, Juran, Taguchi, Quality cost concept and economic aspects of quality decisions, Continuous improvement, Design for quality, On-line quality engineering: Scientific sampling, Statistical process control: Control charts for variables, Control charts for attributes, Models for problem solving, Design of experiments.
+## Course Administration
+This course is designed to be paperless. Submission of test and assignments will normally be done electronically. Students are expected to have the capabilities (knowledge, skills, and tools) to use e-mail, an internet browser, and the Windows operating system. All students should have an active Old Dominion University e-mail account for communications with the professor and best access to course materials and University support. Where students and proctors do not have the capability to scan and submit materials securely and traceably are provided on the MEM website. NCPACE course materials are returned via the servicing NCPACE locations as prescribed in the current NPCACE instructions.
 
----
+## Course Developer
+**Dr. Resit Unal**						
+Professor, Chair
 
-## Course Description:
+Phone: (757) 683-4554
 
-This course introduces the participants to the monetary aspects of engineering projects. Key
-topics include an introduction to accounting principles, financial analysis, capital budgeting, risk
-management, capital structure, and net working capital management. Ethical practices in
-decision-making will be a cross-cutting theme throughout the course.
+Fax: (757) 683-5640
 
-## Course Objectives:
+Email: runal@odu.edu
 
-By the end of this course, the participants will:
+Website: http://www.lions.odu.edu/~runal/
 
-1. Understand key concepts pertaining to financial analysis and cost estimation.
-2. Develop or refine the critical thinking skills needed to apply the content.
-3. Be able to relate the subjects covered to others.
-4. Understand the personal and social implications of knowing about this subject.
-5. Think about the monetary aspects of projects in integrated ways.
+Room: Kaufmann Hall, Room 241
 
-## Course Materials:
+***PhD Engineering Management, University of Missouri-Rolla, 1986***
 
-### Textbook:
+Dr. Unal is a Professor in the Department of Engineering Management and Systems Engineering. He has B.S. in Electrical Engineering and received his M.S. and Ph.D. in Engineering Management from the University of Missouri-Rolla. He has published in the Engineering Management Journal, IEEE Transactions in Engineering Management, Journal of Parametrics, Journal of Spacecraft & Rockets, Reliability Engineering & System Safety, and International Journal for Experimental Design & Process Optimization. Dr. Unal’s research interests include Multidisciplinary Design Optimization, Robust design, Quality engineering, Response Surface Methods, parametric cost estimating, and Genetic Algorithms.
+## Resources
+**Syllabus** – The syllabus contains administrative information necessary to be successful in the course, and it will be discussed during Module 1. *Click to download the syllabus*
 
--   The course textbook is Principles of Managerial Finance (11th Edition) by
--   Lawrence J. Gitman, ISBN 0-321-26761-3. Please bring the textbook to class.
+**Student** **notebook** – The student notebook contains a program overview, a quick reference section, the course syllabus, the schedule of assignments, and other resources necessary for completing this course. *Click to download the student notebook*
 
-### Slides:
+**Textbook**
 
-The lecture slides will be posted on the course web page at least one day prior to the class. Please print out the slides and bring them to class. Hard copies will not
-be provided.
+`	`Title: *Statistical Quality Design and Control*
 
-### Examples:
+Author: DeVor, Chang & Sutherland
 
-Example problems will be posted on the course web page throughout the term. Many of these problems will be reviewed in class. Please print out the examples
-and bring them to class. Hard copies will not be provided.
+Publisher: Pearson
 
-## Course Evaluation:
+## Course Approach
+The course will be taught in an asynchronous DVD-Rom format.
 
-Component Weight
+**Process**:
 
--   Assignments 30%
--   Mid-Term 35%
--   Final Exam 35%
--   **TOTAL** 100%
+`	`Step 1 – Pre-lecture module readings: refer to the schedule of assignments in the student notebook for details about required and suggested readings.
 
-### Assignments:
+`	`Step 2 – View module lecture video.
 
-Problems will be assigned at the end of each session. The assignments are due the
-following session at 11:00 a.m. Please submit the assignment in a single file
-through the course web page. Assignment solutions will be posted on the course
-web page shortly after the due date. All assignments are equally weighted.
-Please note that no late assignments will be accepted. There is an option to
-substitute one missed assignment with a replacement. For participants who have
-submitted all assignments, the replacement assignment will be treated as extra
-credit. The replacement assignment will be posted on the course web page
-towards the end of the course.
+`	`Step 3 – Post-lecture module assignments: refer to the schedule of assignments and work assignments as indicated.
 
-### Exams:
+## Academic Integrity
+ODU honor system is in effect for all student work submitted during the course. Violations will be subject to disciplinary action.
 
-The mid-term and final exams will be administered as per the schedule provided
-on page 4 of the course outline. The exams are non-cumulative and open-book.
-Everything covered in class, the lecture slides, the required readings, the
-assignments, the example problems, or any additional handouts may be tested.
-Student evaluation will be expressed in raw marks (out of 100% for each evaluation component)
-during the course delivery. Mark total for the course will be obtained by assigning the
-component weights given above to the marks obtained in the course, and summing up the
-weighed marks. The letter grade system will then be applied to the final total mark only. As a
-guideline, the following grading scale will be used:
+**Honor Pledge**
 
-#### Grade Percentage
+“*I pledge to support the honor system of Old Dominion University. I will refrain from any form of academic dishonesty or deception, such as cheating, or plagiarism. I am aware that as a member of the academic community, it is my responsibility to turn in all suspected violators of the honor system. I will report to Honor Council hearings if summoned.*”
 
--   A 93.0 – 100.0
--   A- 90.0 – 92.9
--   B+ 87.0 – 89.9
--   B 83.0 – 86.9
--   B- 80.0 – 82.9
--   C+ 77.0 – 79.9
--   C 73.0 – 76.9
--   C- 70.0 – 72.9
--   F <69.9
+By attending Old Dominion University, you have accepted the responsibility to abide by this code. This is an institutional policy approved by the Board of Visitors.
 
-## Feedback:
-
-Questions, comments and suggestions regarding the course will be greatly appreciated.
-Electronic means of communication are preferred for discussions regarding lectures,
-assignments, and exams. To foster promptness in responding, please send questions from an Old
-Dominion University account with “ENMA 600” in the message subject line.
-
-## Class Attendance:
-
-Class attendance is “expected”. If for some reason a student should miss a class, it is the
-student’s responsibility to:
-
-1. Inform themselves of any administrative announcements (e.g. schedule changes)
-   discussed during a session.
-2. “Make-up” any of the course material covered in the session. This is of particular
-   importance as there will be material presented in the sessions that may not be covered
-   adequately in the textbook.
-   It is not necessary to inform me of an absence should a situation arise where attendance is not
-   possible. Please note however, that I reserve the right not to provide extensive information about
-   what transpired in a class.
-
-## Class Conduct:
-
-Please make every attempt to be in class on time. For the sake of your colleagues, please do not
-hold private conversations in class. If the need to talk is overwhelming, please exit discretely.
-
-## ODU Honor Code:
-
-The Old Dominion University Honor code is in effect for all work submitted. It states:
-"I pledge to support the Honor System of Old Dominion University. I will refrain from any form of academic
-dishonesty or deception, such as cheating or plagiarism. I am aware that as a member of the academic community,
-it is my responsibility to turn in all suspected violators of the Honor System. I will report to an Honor Council
-hearing if summoned."
-
-## Course Syllabus:
-
-The tentative course schedule is provided in the table on the following page. Every attempt is
-made to provide a syllabus that is complete and that provides an accurate overview of the course.
-However, circumstances and events may make it necessary to modify the syllabus during the
-semester. This may depend, in part, on the progress, needs, and experiences of the students.

@@ -1,15 +1,16 @@
-**Statistics for Control Charts for Attributes**
+**Design and Analysis of Experiments 3**
 
 **Lesson Outline**
 
 -   Reading assignments:
-    -   None
+    -   Textbook chapters 22
 -   View lecture video
 
 **Lesson Documents**
 
 -   Lesson slides
+-   Two-level example
 
 **Lecture**
 
-1 hr : 59 min : 206 sec
+1 hr : 52 min : 11 sec

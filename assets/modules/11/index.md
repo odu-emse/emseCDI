@@ -1,4 +1,4 @@
-**Statistics for Control Charts for Attributes**
+**Design and Analysis of Experiments 4**
 
 **Lesson Outline**
 
@@ -9,7 +9,9 @@
 **Lesson Documents**
 
 -   Lesson slides
+-   One factor, 2-levels
+-   Three-level example
 
 **Lecture**
 
-1 hr : 59 min : 206 sec
+1 hr : 46 min : 46 sec

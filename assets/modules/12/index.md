@@ -1,4 +1,4 @@
-**Statistics for Control Charts for Attributes**
+**Quality Standards**
 
 **Lesson Outline**
 
@@ -12,4 +12,4 @@
 
 **Lecture**
 
-1 hr : 59 min : 206 sec
+2 hr : 03 min : 55 sec
