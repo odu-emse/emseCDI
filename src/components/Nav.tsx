@@ -15,9 +15,6 @@ const Nav = ({ title }: INav) => {
         window.api.send('toMain', '_')
         // @ts-ignore
         window.api.receive('fromMain', (data: any) => {
-            console.log(data)
-
-            // @ts-ignore
             setDir(data)
         })
     }, [])
