@@ -130,25 +130,29 @@ interface IModuleData {
 
 const Resources: React.FC<IModuleData> = ({ data, moduleNumber }) => {
     return (
-        <section className={``}>
-            {data[moduleNumber - 1]?.resources.map(
-                (resource: string, index: number) => (
-                    <button
-                        className={`block underline text-blue-400`}
-                        key={index}
-                        onClick={() => {
-                            let data = new Blob([resource], {
-                                type: 'text/plain;charset=utf-8',
-                            })
-                            FileSaver.saveAs(
-                                `../../assets/modules/${moduleNumber}/Resources/${resource}`,
-                                resource
-                            )
-                        }}
-                    >
-                        {resource}
-                    </button>
+        <section>
+            {data[moduleNumber - 1]?.resources.length !== 0 ? (
+                data[moduleNumber - 1]?.resources.map(
+                    (resource: string, index: number) => (
+                        <button
+                            className={`block underline text-blue-400`}
+                            key={index}
+                            onClick={() => {
+                                let data = new Blob([resource], {
+                                    type: 'text/plain;charset=utf-8',
+                                })
+                                FileSaver.saveAs(
+                                    `../../assets/modules/${moduleNumber}/Resources/${resource}`,
+                                    resource
+                                )
+                            }}
+                        >
+                            {resource}
+                        </button>
+                    )
                 )
+            ) : (
+                <>No resources found for this module.</>
             )}
         </section>
     )
@@ -157,24 +161,28 @@ const Resources: React.FC<IModuleData> = ({ data, moduleNumber }) => {
 const Exercises: React.FC<IModuleData> = ({ data, moduleNumber }) => {
     return (
         <section className={``}>
-            {data[moduleNumber - 1]?.exercises.map(
-                (exercise: string, index: number) => (
-                    <button
-                        className={`block underline text-blue-400`}
-                        key={index}
-                        onClick={() => {
-                            let data = new Blob([exercise], {
-                                type: 'text/plain;charset=utf-8',
-                            })
-                            FileSaver.saveAs(
-                                `../../assets/modules/${moduleNumber}/Exercises/${exercise}`,
-                                exercise
-                            )
-                        }}
-                    >
-                        {exercise}
-                    </button>
+            {data[moduleNumber - 1]?.exercises.length !== 0 ? (
+                data[moduleNumber - 1]?.exercises.map(
+                    (exercise: string, index: number) => (
+                        <button
+                            className={`block underline text-blue-400`}
+                            key={index}
+                            onClick={() => {
+                                let data = new Blob([exercise], {
+                                    type: 'text/plain;charset=utf-8',
+                                })
+                                FileSaver.saveAs(
+                                    `../../assets/modules/${moduleNumber}/Exercises/${exercise}`,
+                                    exercise
+                                )
+                            }}
+                        >
+                            {exercise}
+                        </button>
+                    )
                 )
+            ) : (
+                <>No exercises found for this module.</>
             )}
         </section>
     )
@@ -183,16 +191,20 @@ const Exercises: React.FC<IModuleData> = ({ data, moduleNumber }) => {
 const Videos: React.FC<IModuleData> = ({ data, moduleNumber }) => {
     return (
         <section className={``}>
-            {data[moduleNumber - 1]?.videos.map(
-                (module: string, index: number) => (
-                    <Link
-                        className={`block underline text-blue-400`}
-                        to={`/modules/${moduleNumber}/${module}`}
-                        key={index}
-                    >
-                        Lecture {module}
-                    </Link>
+            {data[moduleNumber - 1]?.videos.length !== 0 ? (
+                data[moduleNumber - 1]?.videos.map(
+                    (module: string, index: number) => (
+                        <Link
+                            className={`block underline text-blue-400`}
+                            to={`/modules/${moduleNumber}/${module}`}
+                            key={index}
+                        >
+                            Lecture {module}
+                        </Link>
+                    )
                 )
+            ) : (
+                <>No lecture videos found for this module.</>
             )}
         </section>
     )
