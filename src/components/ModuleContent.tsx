@@ -22,6 +22,11 @@ const ModuleContent = ({ content }) => {
                                 className: 'text-lg pb-1 text-gray-500',
                             },
                         },
+                        ul: {
+                            props: {
+                                className: `list-disc my-1 pl-8`,
+                            },
+                        },
                     },
                 }}
             >
