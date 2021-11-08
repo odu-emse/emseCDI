@@ -1,6 +1,6 @@
 import FileSaver from 'file-saver'
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getData } from '../util/fetch'
 import Button from './Button'
 import ModuleContent from './ModuleContent'
@@ -10,7 +10,11 @@ const Lesson: React.FC = (props) => {
     const [overview, setOverview] = useState('# Hello')
     const [active, setActive] = useState('Overview')
 
-    const moduleNumber = props.match.params.id
+    const { id } = useParams()
+
+    console.log(id)
+
+    const moduleNumber = id
 
     useEffect(() => {
         let mount = true

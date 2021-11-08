@@ -8,6 +8,7 @@ import FileSaver from 'file-saver'
 import Button from './Button'
 import Resources from './Resources'
 import Exercises from './Exercises'
+import { useParams } from 'react-router'
 
 const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
@@ -21,16 +22,11 @@ const Module: React.FC = (props) => {
     const [active, setActive] = useState('Overview')
     const [dir, setDir] = useState([])
 
-    const {
-        //@ts-ignore
-        match: { params },
-        //@ts-ignore
-        title,
-    } = props
+    const { id, videoID } = useParams()
 
     useEffect(() => {
-        setPage(params.id)
-        setVid(params.videoID)
+        setPage(id)
+        setVid(videoID)
 
         // @ts-ignore
         window.api.send('toMain', '_')
@@ -102,12 +98,12 @@ const Module: React.FC = (props) => {
         }
     }
 
-    return loading && params.id !== page ? (
+    return loading && id !== page ? (
         <>loading....</>
     ) : (
         <Layout>
             <h1 className="text-2xl mx-auto">
-                Welcome to {title} - Module {page} / Video {vid}
+                Welcome to {props.title} - Module {page} / Video {vid}
             </h1>
             <Button
                 className="absolute top-4 right-1 px-4 py-2 rounded-lg"
