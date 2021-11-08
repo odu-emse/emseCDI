@@ -63,7 +63,9 @@ const reactDevToolsPath = join(
     os.homedir(),
     '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
 )
-
+const getPlatForm = () =>{
+    return os.platform()
+}
 app.whenReady().then(async () => {
     await session.defaultSession.loadExtension(reactDevToolsPath)
 })
@@ -81,7 +83,7 @@ const getStructure = (
 ) => {
     let structure: any = []
 
-    const stream = fg.sync([source], {
+    const stream = fg.sync([getPlatForm() ==="win32" ? source.replace(/\\/g, '/'):source], {
         dot: false,
         onlyFiles: filter.files,
         markDirectories: false,
@@ -89,7 +91,6 @@ const getStructure = (
         deep: filter.depth,
         absolute: false,
     })
-
     stream.map((file) => {
         // const dir = dirs.replace(/[^0-9]/g, '')
         const vid = path.parse(file)
@@ -108,10 +109,12 @@ ipcMain.on('toMain', (event, args) => {
     fs.readdirSync(`${process.cwd()}/assets/modules/`, { withFileTypes: true })
         .filter((dirent) => dirent.isDirectory())
         .map((dirent) => {
+        
             let vids = getStructure(
                 `${process.cwd()}/assets/modules/${dirent.name}/*.mp4`,
                 { dir: false, files: true, depth: 1 }
             )
+            
             let mod: any = {
                 name: dirent.name,
                 videos: [],
@@ -123,7 +126,7 @@ ipcMain.on('toMain', (event, args) => {
         })
 
   console.log(course)
-
+ 
     // let str = [...new Set(getStructure(`${process.cwd()}/assets/modules/**/*`))]
 
     // The below lines are commented out since we aren't focused on nested directories for now
