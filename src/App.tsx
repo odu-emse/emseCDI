@@ -4,7 +4,7 @@ import {
     HashRouter,
     Link,
     Route,
-    Routes as Switch,
+    Switch,
     BrowserRouter,
 } from 'react-router-dom'
 import Module from './components/Module'
@@ -27,10 +27,14 @@ const App: React.FC = () => {
             <BrowserRouter>
                 <Nav title={title} />
                 <Switch>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/modules/:id" element={<Lesson />} />
-                    <Route path="/modules/:id/:videoID" element={<Module />} />
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/home" component={Home} />
+                    <Route exact path="/modules/:id" component={Lesson} />
+                    <Route
+                        exact
+                        path="/modules/:id/:videoID"
+                        component={Module}
+                    />
                 </Switch>
             </BrowserRouter>
         </main>
