@@ -131,7 +131,9 @@ ipcMain.on('toMain', (event, args) => {
                 'exe'
             )
             let vids = getStructure(
-                `${process.cwd()}/assets/modules/${dirent.name}/*.mp4`,
+                `${process.cwd()}/assets/modules/${
+                    dirent.name
+                }/*.{mp4, MP4, avi, flv}`,
                 { dir: false, files: true, depth: 1 }
             )
             let mod: any = {

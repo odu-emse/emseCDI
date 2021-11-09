@@ -12,7 +12,7 @@
             "src/out"
         ],
         "directories": {
-            "buildResources": "resources"
+            "buildResources": "assets/resources"
         }
     },
     "scripts": {

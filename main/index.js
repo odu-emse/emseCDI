@@ -119,7 +119,7 @@ electron_1.ipcMain.on('toMain', (event, args) => {
         .map((dirent) => {
         let rsc = getStructure(`${process.cwd()}/assets/modules/${dirent.name}/Resources/**.*`, { dir: false, files: true, depth: 1 }, 'rsc');
         let exe = getStructure(`${process.cwd()}/assets/modules/${dirent.name}/Exercises/**.*`, { dir: false, files: true, depth: 1 }, 'exe');
-        let vids = getStructure(`${process.cwd()}/assets/modules/${dirent.name}/*.mp4`, { dir: false, files: true, depth: 1 });
+        let vids = getStructure(`${process.cwd()}/assets/modules/${dirent.name}/*.{mp4, MP4, avi, flv}`, { dir: false, files: true, depth: 1 });
         let mod = {
             name: dirent.name,
             videos: [],
