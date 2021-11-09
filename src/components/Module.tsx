@@ -21,6 +21,8 @@ const Module: React.FC = (props) => {
     const [sideBySide, setSideBySide] = useState(false)
     const [active, setActive] = useState('Overview')
     const [dir, setDir] = useState([])
+    const [progress, setProgress] = useState(0)
+    const [counter, setCounter] = useState(1)
 
     const { id, videoID } = useParams()
 
@@ -79,22 +81,17 @@ const Module: React.FC = (props) => {
             })
     }, [props, page, source, preview, vid])
 
-    //call save timestamp function every 5 seconds
-    // const interval = setInterval(() => saveTime(), 5000);
-
     //save timestamp to local storage
-    const saveTime = () => {
-        if (!loading) {
-            let vid: HTMLElement | null
-            let time: object
-            try {
-                vid = document.getElementById('vid')
-                //@ts-ignore
-                time = { time: parseInt(vid?.currentTime) }
-                localStorage.setItem(`module${page}`, JSON.stringify(time))
-            } catch (e) {
-                console.log(e)
-            }
+    const saveTime = (time: number) => {
+        try {
+            localStorage.setItem(
+                `module${page}/video${vid}`,
+                JSON.stringify({
+                    time,
+                })
+            )
+        } catch (e) {
+            console.log(e)
         }
     }
 
@@ -130,6 +127,30 @@ const Module: React.FC = (props) => {
                         height={`${sideBySide ? 'auto' : '100%'}`}
                         url={source}
                         controls={true}
+                        onProgress={(e) => {
+                            // setProgress()
+                            saveTime(e.playedSeconds.toFixed())
+                        }}
+                        onReady={(e) => {
+                            try {
+                                let time_obj: string | null =
+                                    localStorage.getItem(
+                                        `module${page}/video${vid}`
+                                    )
+                                if (typeof time_obj === 'string') {
+                                    let { time } = JSON.parse(time_obj)
+                                    let conv_time = parseInt(time)
+                                    if (conv_time !== 0) {
+                                        e.seekTo(conv_time, 'seconds')
+                                    }
+                                }
+                            } catch (error) {
+                                console.error(error)
+                            }
+                        }}
+                        onPlay={() => {
+                            localStorage.removeItem(`module${page}/video${vid}`)
+                        }}
                     />
                 </div>
                 <div
