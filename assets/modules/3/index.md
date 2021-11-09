@@ -1,9 +1,9 @@
-**Control Charts for Variables – computing Control Limits, Chances of Making Type-I & Type-II Errors**
+﻿**Control Charts for Variables – computing Control Limits, Chances of Making Type-I & Type-II Errors**
 
 **Lesson Outline**
 
 -   Reading assignment:
--   Textbook chapters 5 & 6
+    -   Textbook chapters 5 & 6
 -   View lecture video
 
 **Lesson Documents**

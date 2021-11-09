@@ -1,4 +1,4 @@
-**Control Charts for Fraction Defective**
+﻿**Control Charts for Fraction Defective**
 
 **Lesson Outline**
 

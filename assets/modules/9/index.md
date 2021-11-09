@@ -1,4 +1,4 @@
-**Design and Analysis of Experiments 2**
+﻿**Design and Analysis of Experiments 2**
 
 **Lesson Outline**
 

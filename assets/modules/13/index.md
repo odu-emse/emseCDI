@@ -1,4 +1,4 @@
-**Quality Function Deployment**
+﻿**Quality Function Deployment**
 
 **Lesson Outline**
 

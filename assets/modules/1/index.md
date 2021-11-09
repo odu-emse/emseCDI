@@ -1,9 +1,9 @@
-**Course Introduction, History, and Tools for Continuous Improvement**
+﻿**Course Introduction, History, and Tools for Continuous Improvement**
 
 **Lesson Outline**
 
 -   Reading assignment:
--   Textbook chapters 1 & 2
+    -   Textbook chapters 1 & 2
 -   View lecture video
 
 **Lesson Documents**

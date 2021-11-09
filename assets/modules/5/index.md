@@ -1,9 +1,9 @@
-**Rational Subgroups, Process Capability Assessment**
+﻿**Rational Subgroups, Process Capability Assessment**
 
 **Lesson Outline**
 
 -   Reading assignments:
--   Textbook chapters 7 & 10
+    -   Textbook chapters 7 & 10
 -   View lecture video
 
 **Lesson Documents**

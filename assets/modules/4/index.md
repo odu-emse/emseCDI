@@ -1,9 +1,9 @@
-**Start, Interpret X and R Control Charts, Trial Control Limits**
+﻿**Start, Interpret X and R Control Charts, Trial Control Limits**
 
 **Lesson Outline**
 
 -   Reading assignments:
--   Textbook chapters 8 & 9
+    -   Textbook chapters 8 & 9
 -   View lecture video
 
 **Lesson Documents**

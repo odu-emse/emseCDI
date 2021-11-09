@@ -1,9 +1,9 @@
-**Variation, Normal Distribution, Sampling, Population Parameters, Parameter Estimation**
+﻿**Variation, Normal Distribution, Sampling, Population Parameters, Parameter Estimation**
 
 **Lesson Outline**
 
 -   Reading assignment:
--   Textbook chapters 3 & 4
+    -   Textbook chapters 3 & 4
 -   View lecture video
 
 **Lesson Documents**

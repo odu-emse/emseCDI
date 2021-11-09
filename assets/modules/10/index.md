@@ -1,4 +1,4 @@
-**Design and Analysis of Experiments 3**
+﻿**Design and Analysis of Experiments 3**
 
 **Lesson Outline**
 

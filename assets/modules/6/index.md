@@ -1,4 +1,4 @@
-**Statistics for Control Charts for Attributes**
+﻿**Statistics for Control Charts for Attributes**
 
 **Lesson Outline**
 

@@ -1,4 +1,4 @@
-**Quality Standards**
+﻿**Quality Standards**
 
 **Lesson Outline**
 
