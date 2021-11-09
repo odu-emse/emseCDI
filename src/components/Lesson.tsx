@@ -12,9 +12,7 @@ const Lesson: React.FC = (props) => {
 
     const { id } = useParams()
 
-    console.log(id)
-
-    const moduleNumber = id
+    const lessonNumber = id
 
     useEffect(() => {
         let mount = true
@@ -26,7 +24,7 @@ const Lesson: React.FC = (props) => {
                 setData(res)
             })
 
-            const seed = `../../assets/modules/${moduleNumber}/index.md`
+            const seed = `../../assets/modules/${lessonNumber}/index.md`
             getData(seed, 'md')
                 .then((data) => {
                     setOverview(data)
@@ -38,11 +36,11 @@ const Lesson: React.FC = (props) => {
         return function cleanup() {
             mount = false
         }
-    }, [moduleNumber])
+    }, [lessonNumber])
 
     return (
         <section className={`flex flex-col w-full`}>
-            <h1 className={`text-2xl block`}>This is Module {moduleNumber}</h1>
+            <h1 className={`text-2xl block`}>This is Lesson {lessonNumber}</h1>
             <section
                 className="flex flex-row w-full my-4"
                 style={{ boxShadow: 'inset 0 -2px rgba(0,0,0,0.1)' }}
@@ -98,7 +96,7 @@ const Lesson: React.FC = (props) => {
                     active === 'Resources' ? 'visible' : 'hidden'
                 }`}
             >
-                <Resources data={data} moduleNumber={moduleNumber} />
+                <Resources data={data} lessonNumber={lessonNumber} />
             </section>
             {/*Exercises section*/}
             <section
@@ -106,13 +104,13 @@ const Lesson: React.FC = (props) => {
                     active === 'Exercises' ? 'visible' : 'hidden'
                 }`}
             >
-                <Exercises data={data} moduleNumber={moduleNumber} />
+                <Exercises data={data} lessonNumber={lessonNumber} />
             </section>
             {/*Videos section*/}
             <section
                 className={`px-4 ${active === 'Videos' ? 'visible' : 'hidden'}`}
             >
-                <Videos data={data} moduleNumber={moduleNumber} />
+                <Videos data={data} lessonNumber={lessonNumber} />
             </section>
         </section>
     )
@@ -129,14 +127,14 @@ interface IModuleData {
             name: string
         }
     ]
-    moduleNumber: number
+    lessonNumber: number
 }
 
-const Resources: React.FC<IModuleData> = ({ data, moduleNumber }) => {
+const Resources: React.FC<IModuleData> = ({ data, lessonNumber }) => {
     return (
         <section>
-            {data[moduleNumber - 1]?.resources.length !== 0 ? (
-                data[moduleNumber - 1]?.resources.map(
+            {data[lessonNumber - 1]?.resources.length !== 0 ? (
+                data[lessonNumber - 1]?.resources.map(
                     (resource: string, index: number) => (
                         <button
                             className={`block underline text-blue-400`}
@@ -146,7 +144,7 @@ const Resources: React.FC<IModuleData> = ({ data, moduleNumber }) => {
                                     type: 'text/plain;charset=utf-8',
                                 })
                                 FileSaver.saveAs(
-                                    `../../assets/modules/${moduleNumber}/Resources/${resource}`,
+                                    `../../assets/modules/${lessonNumber}/Resources/${resource}`,
                                     resource
                                 )
                             }}
@@ -162,11 +160,11 @@ const Resources: React.FC<IModuleData> = ({ data, moduleNumber }) => {
     )
 }
 
-const Exercises: React.FC<IModuleData> = ({ data, moduleNumber }) => {
+const Exercises: React.FC<IModuleData> = ({ data, lessonNumber }) => {
     return (
         <section className={``}>
-            {data[moduleNumber - 1]?.exercises.length !== 0 ? (
-                data[moduleNumber - 1]?.exercises.map(
+            {data[lessonNumber - 1]?.exercises.length !== 0 ? (
+                data[lessonNumber - 1]?.exercises.map(
                     (exercise: string, index: number) => (
                         <button
                             className={`block underline text-blue-400`}
@@ -176,7 +174,7 @@ const Exercises: React.FC<IModuleData> = ({ data, moduleNumber }) => {
                                     type: 'text/plain;charset=utf-8',
                                 })
                                 FileSaver.saveAs(
-                                    `../../assets/modules/${moduleNumber}/Exercises/${exercise}`,
+                                    `../../assets/modules/${lessonNumber}/Exercises/${exercise}`,
                                     exercise
                                 )
                             }}
@@ -192,15 +190,15 @@ const Exercises: React.FC<IModuleData> = ({ data, moduleNumber }) => {
     )
 }
 
-const Videos: React.FC<IModuleData> = ({ data, moduleNumber }) => {
+const Videos: React.FC<IModuleData> = ({ data, lessonNumber }) => {
     return (
         <section className={``}>
-            {data[moduleNumber - 1]?.videos.length !== 0 ? (
-                data[moduleNumber - 1]?.videos.map(
+            {data[lessonNumber - 1]?.videos.length !== 0 ? (
+                data[lessonNumber - 1]?.videos.map(
                     (module: string, index: number) => (
                         <Link
                             className={`block underline text-blue-400`}
-                            to={`/modules/${moduleNumber}/${module}`}
+                            to={`/modules/${lessonNumber}/${module}`}
                             key={index}
                         >
                             Lecture {module}

@@ -21,10 +21,8 @@ const Module: React.FC = (props) => {
     const [sideBySide, setSideBySide] = useState(false)
     const [active, setActive] = useState('Overview')
     const [dir, setDir] = useState([])
-    const [progress, setProgress] = useState(0)
-    const [counter, setCounter] = useState(1)
 
-    const { id, videoID } = useParams()
+    const { id, videoID, timestamp } = useParams()
 
     useEffect(() => {
         setPage(id)
@@ -36,32 +34,6 @@ const Module: React.FC = (props) => {
         window.api.receive('fromMain', (data: any) => {
             setDir(data)
         })
-
-        let time
-        let data
-
-        //if student is viewing the module page and page is fully loaded
-        //@ts-ignore
-        // if(props.match.url.includes('modules') && !loading){
-        //     let vid = document.getElementById('vid')
-        //     //if user has visited the module page already set video time to saved one
-        //     if(localStorage.getItem(`module${page}`)) {
-        //         const localData = localStorage.getItem(`module${page}`)
-        //         //@ts-ignore
-        //         const data = JSON.parse(localData)
-        //         //@ts-ignore
-        //         vid.currentTime = parseInt(data.time) | 0
-        //     }
-        //     //create local storage object if not visited already
-        //     else{
-        //         let moduleTimes: object = {
-        //             "time": 0,
-        //         }
-        //         localStorage.setItem(`module${page}`, JSON.stringify(moduleTimes))
-        //         //@ts-ignore
-        //         vid.currentTime = 0
-        //     }
-        // }
 
         const seed = `../../assets/modules/${page}/index.md`
         const src = `../../assets/modules/${page}/${vid}.mp4`
@@ -128,7 +100,6 @@ const Module: React.FC = (props) => {
                         url={source}
                         controls={true}
                         onProgress={(e) => {
-                            // setProgress()
                             saveTime(e.playedSeconds.toFixed())
                         }}
                         onReady={(e) => {
@@ -149,6 +120,9 @@ const Module: React.FC = (props) => {
                             }
                         }}
                         onPlay={() => {
+                            localStorage.removeItem(`module${page}/video${vid}`)
+                        }}
+                        onSeek={() => {
                             localStorage.removeItem(`module${page}/video${vid}`)
                         }}
                     />
@@ -290,20 +264,24 @@ const Module: React.FC = (props) => {
                             />
                         </section>
                         <div className="flex justify-end">
-                            <Button
+                            {/* TODO: Set up loading notes feature */}
+                            {/* <Button
                                 size="small"
                                 variant="secondary"
                                 className="w-1/5 ml-auto block rounded-lg mb-2"
                             >
                                 Load notes
-                            </Button>
+                            </Button> */}
                             <Button
                                 size="small"
                                 onClick={() => {
                                     let data = new Blob([notes], {
                                         type: 'text/plain;charset=utf-8',
                                     })
-                                    FileSaver.saveAs(data, 'notes.md')
+                                    FileSaver.saveAs(
+                                        data,
+                                        `module_${id}-lesson_${videoID}-notes.md`
+                                    )
                                 }}
                                 variant="success"
                                 className="w-1/5 ml-2 block rounded-lg mb-2"
