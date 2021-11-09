@@ -1,6 +1,6 @@
 {
     "name": "emseCDI",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Asynchronous Offline Degree Platform",
     "main": "main/index.js",
     "build": {
