@@ -74,7 +74,7 @@ const Module: React.FC = (props) => {
             <Prompt
                 when={notes.length > 0}
                 message={`${notes.length}
-                    You have unsaved notes. If you leave the page, your notes will be gone.`}
+                    You have unsaved notes. If you leave the page, your notes will be gone. Please consider saving your notes to your computer using the save notes button.`}
             />
             <h1 className="text-2xl mx-auto">
                 Welcome to {props.title} - Module {page} / Video {vid}
