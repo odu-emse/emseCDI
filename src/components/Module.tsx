@@ -8,7 +8,7 @@ import FileSaver from 'file-saver'
 import Button from './Button'
 import Resources from './Resources'
 import Exercises from './Exercises'
-import { useParams } from 'react-router'
+import { Prompt, useParams } from 'react-router'
 
 const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
@@ -71,6 +71,11 @@ const Module: React.FC = (props) => {
         <>loading....</>
     ) : (
         <Layout>
+            <Prompt
+                when={notes.length > 0}
+                message={`${notes.length}
+                    You have unsaved notes. If you leave the page, your notes will be gone.`}
+            />
             <h1 className="text-2xl mx-auto">
                 Welcome to {props.title} - Module {page} / Video {vid}
             </h1>
