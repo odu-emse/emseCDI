@@ -1,50 +1,26 @@
+import { resolve } from 'path'
+import { defineConfig } from 'vite'
+import reactRefresh from '@vitejs/plugin-react-refresh'
+import twstyled from 'vite-plugin-twstyled'
 
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import { UserConfig, ConfigEnv } from 'vite';
-import { join } from 'path';
-
-const srcRoot = join(__dirname, 'src');
-
-export default ({ command }: ConfigEnv): UserConfig => {
-    // DEV
-    if (command === 'serve') {
-        return {
-            base: '/',
-            plugins: [reactRefresh()],
-            alias: {
-                '/@': srcRoot
+export default defineConfig({
+    plugins: [twstyled(), reactRefresh()],
+    base: './',
+    root: resolve('./src/renderer'),
+    build: {
+        outDir: resolve('./dist'),
+        emptyOutDir: true,
+    },
+    resolve: {
+        alias: [
+            {
+                find: '@/renderer',
+                replacement: resolve(__dirname, 'src/renderer'),
             },
-            build: {
-                outDir: join(srcRoot, '/out'),
-                emptyOutDir: true,
-                rollupOptions: {}
+            {
+                find: '@/common',
+                replacement: resolve(__dirname, 'src/common'),
             },
-            server: {
-                port: process.env.PORT === undefined ? 3000 : +process.env.PORT
-            },
-            optimizeDeps: {
-                exclude: ['path']
-            }
-        };
-    }
-    // PROD
-
-    return {
-        base: `${__dirname}/src/out/`,
-        plugins: [reactRefresh()],
-        alias: {
-            '/@': srcRoot
-        },
-        build: {
-            outDir: join(srcRoot, '/out'),
-            emptyOutDir: true,
-            rollupOptions: {}
-        },
-        server: {
-            port: process.env.PORT === undefined ? 3000 : +process.env.PORT
-        },
-        optimizeDeps: {
-            exclude: ['path']
-        }
-    };
-};
+        ],
+    },
+})

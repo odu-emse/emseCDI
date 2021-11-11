@@ -27,14 +27,14 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: false, // is default value after Electron v5
             contextIsolation: true, // protect against prototype pollution
-            preload: join(__dirname, 'preload.js'), // use a preload script
+            preload: join('./preload.ts'), // use a preload script
         },
     })
 
     const port = process.env.PORT || 3000
     const url = isDev
         ? `http://localhost:${port}`
-        : join(__dirname, '../src/out/index.html')
+        : join(__dirname, './index.html')
 
     // and load the index.html of the app.
     if (isDev) {
@@ -58,15 +58,17 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 })
-
-const reactDevToolsPath = join(
-    os.homedir(),
-    '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
-)
-
-app.whenReady().then(async () => {
-    await session.defaultSession.loadExtension(reactDevToolsPath)
-})
+try {
+    // const reactDevToolsPath = join(
+    //     os.homedir(),
+    //     '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
+    // )
+    // app.whenReady().then(async () => {
+    //     await session.defaultSession.loadExtension(reactDevToolsPath)
+    // })
+} catch (error) {
+    console.error(error)
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
