@@ -11,12 +11,13 @@ import Module from './components/Module'
 import Home from './components/Home'
 import { getData } from './util/fetch'
 import Lesson from './components/Lesson'
+import { config } from './util/config'
 
 const App: React.FC = () => {
     const [title, setTitle] = useState('')
 
     useEffect(() => {
-        const seed = `../../assets/modules/index.json`
+        const seed = `${config.path}/index.json`
         getData(seed, 'json').then((data) => {
             setTitle(data.title)
         })

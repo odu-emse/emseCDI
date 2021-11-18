@@ -1,6 +1,7 @@
 import FileSaver from 'file-saver'
 import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { config } from '../util/config'
 import { getData } from '../util/fetch'
 import Button from './Button'
 import ModuleContent from './ModuleContent'
@@ -24,7 +25,7 @@ const Lesson: React.FC = (props) => {
                 setData(res)
             })
 
-            const seed = `../../assets/modules/${lessonNumber}/index.md`
+            const seed = `${config.path}/${lessonNumber}/index.md`
             getData(seed, 'md')
                 .then((data) => {
                     setOverview(data)

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Layout from './Layout'
 import Markdown from 'markdown-to-jsx'
 import { getData } from '../util/fetch'
+import { config } from '../util/config'
 
 const Home = () => {
     const [courseContent, setCourseContent] = useState('# Welcome to ENMA 600')
 
     useEffect(() => {
         let mounted = true
-        getData('../assets/modules/index.md', 'md')
+        getData(`${config.path}/index.md`, 'md')
             .then((res) => {
                 if (mounted) {
                     setCourseContent(res)

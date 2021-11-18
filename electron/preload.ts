@@ -1,6 +1,13 @@
 import { ipcRenderer, contextBridge } from 'electron'
 
-contextBridge.exposeInMainWorld('api', {
+declare global {
+    interface Window {
+        api: typeof api
+        ipcRenderer: typeof ipcRenderer
+    }
+}
+
+export const api = {
     send: (channel: any, data: any) => {
         // whitelist channels
         let validChannels = ['toMain', 'getModules']
@@ -16,4 +23,8 @@ contextBridge.exposeInMainWorld('api', {
             ipcRenderer.on(channel, (event, ...args) => func(...args))
         }
     },
-})
+}
+
+contextBridge.exposeInMainWorld('api', api)
+
+contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer)

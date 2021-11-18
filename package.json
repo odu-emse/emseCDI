@@ -4,27 +4,34 @@
     "description": "Asynchronous Offline Degree Platform",
     "main": "main/index.js",
     "build": {
-        "appId": "com.example.electron-boilerplate",
+        "asar": false,
         "files": [
-            "node_modules/**/*",
-            "package.json",
             "main",
-            "src/out"
+            {
+                "from": "public",
+                "to": "",
+                "filter": [
+                    "index.html"
+                ]
+            },
+            "public/assets",
+            "assets"
         ],
         "directories": {
             "buildResources": "assets/resources"
         }
     },
     "scripts": {
-        "dev": "concurrently \"yarn dev:vite\" \" yarn dev:electron\"",
+        "dev": "NODE_ENV=ELECTRON_ENABLE_LOGGING=1 concurrently \"yarn dev:vite\" \" yarn dev:electron\"",
         "dev:vite": "vite",
         "dev:electron": "npm run build:electron && electron .",
         "build": "npm run build:vite && npm run build:electron",
         "build:vite": "vite build",
         "build:electron": "tsc -p electron",
+        "dist:quick": "electron-builder",
         "dist": "npm run build && electron-builder",
         "pack": "npm run build && electron-builder --dir",
-        "clean": "rimraf dist main src/out"
+        "clean": "rimraf dist main out"
     },
     "repository": {
         "type": "git",
@@ -39,7 +46,7 @@
     "homepage": "https://github.com/odu-emse/emseCDI#readme",
     "devDependencies": {
         "@types/file-saver": "^2.0.3",
-        "@types/node": "^16.10.2",
+        "@types/node": "^16.11.7",
         "@types/react": "^17.0.34",
         "@types/react-dom": "^17.0.11",
         "@types/react-router-dom": "^5.3.1",

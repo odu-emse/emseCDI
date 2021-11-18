@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.api = void 0;
 const electron_1 = require("electron");
-electron_1.contextBridge.exposeInMainWorld('api', {
+exports.api = {
     send: (channel, data) => {
         // whitelist channels
         let validChannels = ['toMain', 'getModules'];
@@ -17,4 +18,6 @@ electron_1.contextBridge.exposeInMainWorld('api', {
             electron_1.ipcRenderer.on(channel, (event, ...args) => func(...args));
         }
     },
-});
+};
+electron_1.contextBridge.exposeInMainWorld('api', exports.api);
+electron_1.contextBridge.exposeInMainWorld('ipcRenderer', electron_1.ipcRenderer);
