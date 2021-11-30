@@ -6,3 +6,7 @@
 /.idea
 out/
 *.mp4
+
+public/
+
+main/

@@ -30,7 +30,7 @@ export default ({ command }: ConfigEnv): UserConfig => {
     // PROD
 
     return {
-        base: outRoot,
+        base: './',
         plugins: [reactRefresh()],
         alias: {
             '/@': srcRoot,
