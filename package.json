@@ -15,7 +15,7 @@
                 ]
             },
             "public/assets",
-            "assets"
+            "assets/modules"
         ],
         "directories": {
             "buildResources": "assets/resources"
