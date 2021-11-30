@@ -54,7 +54,17 @@ app.whenReady()
         if (isDev) {
             window?.loadURL(url)
             // Open the DevTools.
-            // window.webContents.openDevTools()
+            window.webContents.openDevTools()
+
+            try {
+                const reactDevToolsPath = join(
+                    os.homedir(),
+                    '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
+                )
+                session.defaultSession.loadExtension(reactDevToolsPath)
+            } catch (error) {
+                console.error(error)
+            }
         } else {
             window?.loadFile(url)
         }
@@ -66,21 +76,9 @@ app.whenReady()
 
             let course: any = []
 
-            if (isDev) {
-                try {
-                    const reactDevToolsPath = join(
-                        os.homedir(),
-                        '/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.20.0_0'
-                    )
-                    session.defaultSession.loadExtension(reactDevToolsPath)
-                } catch (error) {
-                    console.error(error)
-                }
-            }
-
             const base_path = isDev
                 ? join(process.cwd(), 'assets', 'modules')
-                : join(__dirname, '../', 'assets', 'modules')
+                : join(__dirname, '../', 'modules')
 
             fs.readdirSync(base_path, {
                 withFileTypes: true,

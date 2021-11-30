@@ -9,7 +9,7 @@ const Home = () => {
 
     useEffect(() => {
         let mounted = true
-        getData(`${config.path}/index.md`, 'md')
+        getData(`${config.path.course}/index.md`, 'md')
             .then((res) => {
                 if (mounted) {
                     setCourseContent(res)

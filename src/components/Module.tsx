@@ -10,6 +10,7 @@ import Resources from './Resources'
 import Exercises from './Exercises'
 import { Prompt, useParams } from 'react-router'
 import { config } from '../util/config'
+import { generatePath } from 'react-router'
 
 const Module: React.FC = (props) => {
     const [page, setPage] = useState('1')
@@ -36,8 +37,18 @@ const Module: React.FC = (props) => {
             setDir(data)
         })
 
-        const seed = `${config.path}/${page}/index.md`
-        const src = `${config.path}/${page}/${vid}.mp4`
+        // const seed = `${config.path}/${page}/index.md`
+        let seed = generatePath(`:path/:module/`, {
+            path: config.path.module,
+            module: page,
+        })
+        seed += 'index.md'
+        // const src = `${config.path}/${page}/${vid}.mp4`
+        let src = generatePath(`:path/:module/`, {
+            path: config.path.module,
+            module: page,
+        })
+        src += `${vid}.mp4`
         getData(seed, 'md')
             .then((data) => {
                 setPost(data)

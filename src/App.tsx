@@ -17,7 +17,7 @@ const App: React.FC = () => {
     const [title, setTitle] = useState('')
 
     useEffect(() => {
-        const seed = `${config.path}/index.json`
+        const seed = `${config.path.course}/index.json`
         getData(seed, 'json').then((data) => {
             setTitle(data.title)
         })

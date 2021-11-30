@@ -5,6 +5,7 @@ import { config } from '../util/config'
 import { getData } from '../util/fetch'
 import Button from './Button'
 import ModuleContent from './ModuleContent'
+import { generatePath } from 'react-router'
 
 const Lesson: React.FC = (props) => {
     const [data, setData] = useState([])
@@ -25,7 +26,12 @@ const Lesson: React.FC = (props) => {
                 setData(res)
             })
 
-            const seed = `${config.path}/${lessonNumber}/index.md`
+            // const seed = `${config.path}/${lessonNumber}/index.md`
+            let seed = generatePath(`:path/:lesson/`, {
+                lesson: lessonNumber,
+                path: config.path.lesson,
+            })
+            seed += 'index.md'
             getData(seed, 'md')
                 .then((data) => {
                     setOverview(data)
