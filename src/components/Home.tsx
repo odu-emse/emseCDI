@@ -1,25 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from './Layout'
 import Markdown from 'markdown-to-jsx'
 import { getData } from '../util/fetch'
+import { config } from '../util/config'
+import { generatePath } from 'react-router-dom'
+import { isDev } from '../util/isDev'
+import { AppContext } from '../App'
+import { IModuleData } from '../util/types'
 
 const Home = () => {
     const [courseContent, setCourseContent] = useState('# Welcome to ENMA 600')
+    const [loading, setLoading] = useState(true)
+    const [path, setPath] = useState('')
+
+    const value = useContext(AppContext)
+
+    const { course }: [IModuleData] = value
 
     useEffect(() => {
-        let mounted = true
-        getData('../assets/modules/index.md', 'md')
+        setPath(course.course)
+    }, [courseContent])
+
+    try {
+        getData(`${isDev() ? '../../assets' : path}/modules/index.md`, 'md')
             .then((res) => {
-                if (mounted) {
+                if (res) {
                     setCourseContent(res)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                    return null
                 }
             })
-            .catch((e) => console.error(e))
-        return function cleanup() {
-            mounted = false
-        }
-    }, [])
-    return (
+            .catch((e) => {
+                console.error(e)
+                setLoading(false)
+                return null
+            })
+    } catch (error) {
+        console.log(error)
+    }
+
+    return loading ? (
+        <>Loading...</>
+    ) : (
         <Layout>
             <Markdown
                 options={{

@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { IModule, IModuleData } from '../util/types'
 import SubMenuItem from './SubMenuItem'
 
 interface Props {
     index: number
-    dirr: {
-        name: string
-        videos: [string]
-    }
+    module: IModuleData
 }
 
-const MenuItem: React.FC<Props> = ({ index, dirr }) => {
+const MenuItem: React.FC<Props> = ({ index, module }) => {
     const [open, setOpen] = useState(true)
-    //array that holds the path to the videos inside of the individual module folder
-    const [videos, setVideos] = useState()
-
-    const [dir, setDir] = useState([])
 
     useEffect(() => {
         setOpen(false)
@@ -23,21 +17,21 @@ const MenuItem: React.FC<Props> = ({ index, dirr }) => {
 
     return (
         <>
-            <Link to={`/modules/${dirr.name}`}>
+            <Link to={`/modules/${module.name}`}>
                 <li
                     className="px-4 py-2 hover:bg-gray-300 cursor-pointer"
-                    key={dirr.name}
+                    key={index}
                     onClick={() => setOpen(!open)}
                 >
-                    Module {dirr.name}
+                    Module {module.name}
                 </li>
             </Link>
-            {dirr.videos.map((vid, index) => (
+            {module.videos.map((vid: IModule, index: number) => (
                 <SubMenuItem
                     open={open}
                     key={index}
-                    module={dirr.name}
-                    video={vid}
+                    directoryIndex={parseInt(module.name)}
+                    module={vid}
                 />
             ))}
         </>

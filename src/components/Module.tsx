@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import { getData } from '../util/fetch'
 import Layout from './Layout'
@@ -9,49 +9,57 @@ import Button from './Button'
 import Resources from './Resources'
 import Exercises from './Exercises'
 import { Prompt, useParams } from 'react-router'
+import { config } from '../util/config'
+import { getDirectoryStructure } from '../util/ipc'
+import { AppContext } from '../App'
+import { IModuleData } from '../util/types'
+import { isDev } from '../util/isDev'
+
+interface IParams {
+    id: string
+    videoID: string
+}
 
 const Module: React.FC = (props) => {
+    const [data, setData] = useState<IModuleData>()
     const [page, setPage] = useState('1')
-    const [vid, setVid] = useState()
+    const [vid, setVid] = useState('')
     const [post, setPost] = useState('# Hello')
-    const [source, setSource] = useState('../../assets/modules/1/1.mp4')
+    const [source, setSource] = useState('')
     const [loading, setLoading] = useState(true)
     const [preview, setPreview] = useState('edit')
     const [notes, setNotes] = useState('')
     const [sideBySide, setSideBySide] = useState(false)
     const [active, setActive] = useState('Overview')
-    const [dir, setDir] = useState([])
 
-    const { id, videoID, timestamp } = useParams()
+    const { id, videoID }: IParams = useParams()
+    const value = useContext(AppContext)
+    const { course }: [IModuleData] = value
+    const { modules } = course
+
+    const uri: string = isDev()
+        ? `../../assets/modules/${page}/${data?.videos[0].name}`
+        : data?.videos[0].path ?? ''
 
     useEffect(() => {
+        setData(modules.at(parseInt(id) - 1))
         setPage(id)
         setVid(videoID)
+        setSource(uri)
+    }, [props, page, preview, source])
 
-        // @ts-ignore
-        window.api.send('toMain', '_')
-        // @ts-ignore
-        window.api.receive('fromMain', (data: any) => {
-            setDir(data)
-        })
-
-        const seed = `../../assets/modules/${page}/index.md`
-        const src = `../../assets/modules/${page}/${vid}.mp4`
-        getData(seed, 'md')
-            .then((data) => {
-                setPost(data)
-                setSource(src)
-                if (src !== source) {
-                    setLoading(true)
-                } else {
-                    setLoading(false)
-                }
+    try {
+        getData(
+            isDev() ? `/assets/modules/${id}/index.md` : data.overview.path,
+            'md'
+        )
+            .then((res) => {
+                setPost(res)
             })
-            .catch((e) => {
-                console.error(e)
-                setLoading(false)
-            })
-    }, [props, page, source, preview, vid])
+            .catch((err) => console.error(err))
+    } catch (error) {
+        console.log(error)
+    }
 
     //save timestamp to local storage
     const saveTime = (time: number) => {
@@ -77,7 +85,7 @@ const Module: React.FC = (props) => {
                     You have unsaved notes. If you leave the page, your notes will be gone. Please consider saving your notes to your computer using the save notes button.`}
             />
             <h1 className="text-2xl mx-auto">
-                Welcome to {props.title} - Module {page} / Video {vid}
+                Welcome to Module {data?.name} / Video {vid}
             </h1>
             <Button
                 className="absolute top-4 right-1 px-4 py-2 rounded-lg"
@@ -105,7 +113,7 @@ const Module: React.FC = (props) => {
                         url={source}
                         controls={true}
                         onProgress={(e) => {
-                            saveTime(e.playedSeconds.toFixed())
+                            saveTime(parseInt(e.playedSeconds.toFixed()))
                         }}
                         onReady={(e) => {
                             try {
@@ -285,7 +293,7 @@ const Module: React.FC = (props) => {
                                     })
                                     FileSaver.saveAs(
                                         data,
-                                        `module_${id}-lesson_${videoID}-notes.md`
+                                        `module_${id}-lesson_${vid}-notes.md`
                                     )
                                 }}
                                 variant="success"
@@ -306,7 +314,10 @@ const Module: React.FC = (props) => {
                             active === 'Resources' ? 'visible' : 'hidden'
                         }`}
                     >
-                        <Resources data={dir} module={page} />
+                        <Resources
+                            data={data?.resources ?? []}
+                            module={parseInt(page)}
+                        />
                     </section>
 
                     {/*Exercises section*/}
@@ -315,7 +326,10 @@ const Module: React.FC = (props) => {
                             active === 'Exercises' ? 'visible' : 'hidden'
                         }`}
                     >
-                        <Exercises data={dir} module={page} />
+                        <Exercises
+                            data={data?.exercises ?? []}
+                            module={parseInt(page)}
+                        />
                     </section>
                 </div>
             </div>

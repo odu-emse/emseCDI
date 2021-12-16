@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { getData } from '../util/fetch'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { AppContext } from '../App'
+import { IModuleData } from '../util/types'
 import MenuItem from './MenuItem'
 
 interface INav {
@@ -8,28 +9,23 @@ interface INav {
 }
 
 const Nav = ({ title }: INav) => {
-    const [dir, setDir] = useState([])
+    const value = useContext(AppContext)
+    const { course }: [IModuleData] = value
+    const { modules } = course
 
-    useEffect(() => {
-        // @ts-ignore
-        window.api.send('toMain', '_')
-        // @ts-ignore
-        window.api.receive('fromMain', (data: any) => {
-            setDir(data)
-        })
-    }, [])
-
-    return (
+    return modules.length !== 0 ? (
         <nav className="flex flex-col lg:w-1/5 w-1/4 min-h-screen bg-gray-100 shadow-xl border-r-2 border-gray-200 py-2">
-            <Link to="/home" className="mx-auto font-bold text-2xl">
+            <Link to="/" className="mx-auto font-bold text-2xl">
                 <h1>{title}</h1>
             </Link>
             <ul>
-                {dir.map((dirr, index) => (
-                    <MenuItem index={index} key={index} dirr={dirr} />
+                {modules.map((mod: IModuleData, index: number) => (
+                    <MenuItem index={index} key={index} module={mod} />
                 ))}
             </ul>
         </nav>
+    ) : (
+        <>Loading...</>
     )
 }
 

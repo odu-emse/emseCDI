@@ -1,43 +1,63 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import Nav from './components/Nav'
-import {
-    HashRouter,
-    Link,
-    Route,
-    Switch,
-    BrowserRouter,
-} from 'react-router-dom'
+import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import Module from './components/Module'
 import Home from './components/Home'
-import { getData } from './util/fetch'
 import Lesson from './components/Lesson'
+import { ICourseData } from './util/types'
+import { getData } from './util/fetch'
+import { isDev } from './util/isDev'
+
+export const AppContext = createContext({})
 
 const App: React.FC = () => {
+    const [titlePath, setTitlePath] = useState('')
     const [title, setTitle] = useState('')
+    const [course, setCourse] = useState<ICourseData>()
 
     useEffect(() => {
-        const seed = `../../assets/modules/index.json`
-        getData(seed, 'json').then((data) => {
-            setTitle(data.title)
+        window.api.send('toMain', '_')
+        window.api.receive('fromMain', async (data: ICourseData) => {
+            setTitlePath(data.course)
+            setCourse(data)
         })
-    })
+    }, [])
 
-    return (
-        <main className="flex flex-row">
-            <BrowserRouter>
-                <Nav title={title} />
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/home" component={Home} />
-                    <Route exact path="/modules/:id" component={Lesson} />
-                    <Route
-                        exact
-                        path="/modules/:id/:videoID"
-                        component={Module}
-                    />
-                </Switch>
-            </BrowserRouter>
-        </main>
+    try {
+        getData(
+            `${isDev() ? '../../assets' : titlePath}/modules/index.json`,
+            'json'
+        )
+            .then((res) => {
+                setTitle(res.title)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    } catch (error) {
+        console.error(error)
+    }
+
+    return course ? (
+        <AppContext.Provider value={{ course }}>
+            <main className="flex flex-row">
+                <BrowserRouter>
+                    <Nav title={title} />
+                    <Switch>
+                        <Redirect exact from="/index.html" to="/" />
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/modules/:id" component={Lesson} />
+                        <Route
+                            exact
+                            path="/modules/:id/:videoID"
+                            component={Module}
+                        />
+                    </Switch>
+                </BrowserRouter>
+            </main>
+        </AppContext.Provider>
+    ) : (
+        <>Loading...</>
     )
 }
 
