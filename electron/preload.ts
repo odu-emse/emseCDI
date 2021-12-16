@@ -10,17 +10,25 @@ declare global {
 export const api = {
     send: (channel: any, data: any) => {
         // whitelist channels
-        let validChannels = ['toMain', 'getModules']
+        let validChannels = ['toMain', 'getPath']
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data)
         }
     },
     receive: (channel: any, func: any) => {
-        let validChannels = ['fromMain', 'toModules']
+        let validChannels = ['fromMain', 'sendPath']
         if (validChannels.includes(channel)) {
             // Deliberately strip event as it includes `sender`
             // @ts-ignore
             ipcRenderer.on(channel, (event, ...args) => func(...args))
+            // @ts-ignore
+            ipcRenderer.removeListener('fromMain', (event, ...args) =>
+                func(...args)
+            )
+            // @ts-ignore
+            ipcRenderer.removeListener('sendPath', (event, ...args) =>
+                func(...args)
+            )
         }
     },
 }

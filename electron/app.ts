@@ -7,11 +7,19 @@ interface IStructureFilter {
     depth?: number
 }
 
+interface IReturnStructure {
+    name: string
+    path: string
+    parent: string
+    ext: string
+    other: string
+}
+
 export const getStructure = (
     source: string,
-    filter: IStructureFilter,
-    flag?: string
-) => {
+    filter: IStructureFilter
+    // flag?: string
+): [IReturnStructure] => {
     let structure: any = []
 
     const stream = fg.sync([source], {
@@ -22,15 +30,30 @@ export const getStructure = (
         deep: filter.depth,
         absolute: false,
     })
+    let staticAssets = [
+        '.xlsx',
+        '.xls',
+        '.docx',
+        '.doc',
+        '.pptx',
+        '.ppt',
+        '.pdf',
+        '.md',
+        '.mp4',
+        '.MP4',
+    ]
 
     stream.map((file) => {
-        let asset
-        if (flag === 'rsc' || flag === 'exe') {
-            asset = parse(file)
-            structure.push(asset.base)
-        } else {
-            asset = parse(file)
-            structure.push(asset.name)
+        let asset = parse(file)
+
+        if (staticAssets.includes(asset.ext)) {
+            structure.push({
+                name: asset.base,
+                path: `${asset.dir}/${asset.base}`,
+                parent: asset.dir,
+                ext: asset.ext,
+                other: asset.root,
+            })
         }
     })
     return structure
