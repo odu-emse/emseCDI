@@ -43,7 +43,7 @@
         }
     },
     "scripts": {
-        "dev": "NODE_ENV=ELECTRON_ENABLE_LOGGING=1 concurrently \"yarn dev:vite\" \" yarn dev:electron\"",
+        "dev": "concurrently \"yarn dev:vite\" \" yarn dev:electron\"",
         "dev:vite": "vite",
         "dev:electron": "npm run build:electron && electron .",
         "build": "npm run build:vite && npm run build:electron",

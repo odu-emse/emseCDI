@@ -40,21 +40,32 @@ const App: React.FC = () => {
 
     return course ? (
         <AppContext.Provider value={{ course }}>
-            <main className="flex flex-row">
-                <BrowserRouter>
-                    <Nav title={title} />
-                    <Switch>
-                        <Redirect exact from="/index.html" to="/" />
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/modules/:id" component={Lesson} />
-                        <Route
-                            exact
-                            path="/modules/:id/:videoID"
-                            component={Module}
-                        />
-                    </Switch>
-                </BrowserRouter>
-            </main>
+            <section className="px-10 py-4">
+                
+                <img className="w-screen" src="../assets/pattern-stripe2_larger_copy-min.jpg"></img>
+                <main className="flex flex-row mt">
+                
+                    <BrowserRouter>
+                        
+                        <Nav title={title} />
+                        <Switch>
+                            <Redirect exact from="/index.html" to="/" />
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/modules/:id" component={Lesson} />
+                            <Route
+                                exact
+                                path="/modules/:id/:videoID"
+                                component={Module}
+                            />
+                        </Switch>
+                    </BrowserRouter>
+                    
+                </main>  
+                
+                <img className="w-screen" src="../assets/pattern-stripe2_larger_copy-min.jpg"></img>  
+            </section>
+            
+            
         </AppContext.Provider>
     ) : (
         <>Loading...</>
