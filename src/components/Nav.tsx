@@ -14,11 +14,14 @@ const Nav = ({ title }: INav) => {
     const { modules } = course
 
     return modules.length !== 0 ? (
-        <nav className="flex flex-col lg:w-1/5 w-1/4 min-h-screen bg-gray-100 shadow-xl border-r-2 border-gray-200 py-2">
+        <nav className="flex flex-col lg:w-1/5 w-1/4 min-h-screen bg-gray-100 shadow-xl border-r-2 border-gray-200">
+            <picture className="pb-5">
+                <img src="../assets/EMSE_logo_UI_topleft.png"></img>
+            </picture>
             <Link to="/" className="mx-auto font-bold text-2xl">
                 <h1>{title}</h1>
             </Link>
-            <ul>
+            <ul className="text-center">
                 {modules.map((mod: IModuleData, index: number) => (
                     <MenuItem index={index} key={index} module={mod} />
                 ))}

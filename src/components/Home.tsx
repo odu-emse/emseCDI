@@ -50,18 +50,24 @@ const Home = () => {
                     overrides: {
                         h1: {
                             props: {
-                                className: 'text-2xl font-bold text-gray-800',
+                                className: 'text-2xl font-bold text-gray-800 text-center mb-5 odu-blue',
                             },
                         },
                         h2: {
                             props: {
-                                className: 'text-xl pb-2 text-gray-700',
+                                className: 'text-xl pb-2 text-gray-700 text-center mb-3 font-bold',
                             },
                         },
                         h3: {
                             props: {
-                                className: 'text-lg pb-1 text-gray-500',
+                                className: 'text-lg pb-1 text-gray-500 mb-3',
                             },
+                        },
+                        p:{
+                            props:{
+                                className:'mb-2',
+                            },
+
                         },
                     },
                 }}

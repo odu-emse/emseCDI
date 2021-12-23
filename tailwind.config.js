@@ -10,6 +10,9 @@ module.exports = {
         fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui'],
         },
+        colors:{
+            'odu-blue': '#4348DD'
+        }
     },
     plugins: [require('@tailwindcss/aspect-ratio')],
 }

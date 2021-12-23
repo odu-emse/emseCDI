@@ -9,12 +9,12 @@ const ModuleContent = ({ content }) => {
                     overrides: {
                         h1: {
                             props: {
-                                className: 'text-2xl font-bold text-gray-800',
+                                className: 'text-2xl font-bold text-gray-800 ',
                             },
                         },
                         h2: {
                             props: {
-                                className: 'text-xl pb-2 text-gray-700',
+                                className: 'text-xl pb-2 text-gray-700 ',
                             },
                         },
                         h3: {
